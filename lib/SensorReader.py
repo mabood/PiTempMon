@@ -19,7 +19,7 @@ class SensorReader():
 
     def measure_temp(self):
         slave_data = self.read_slave_file()
-        timestamp = datetime.datetime.now().format(get_property('TIME_FORMAT', 'CONFIG'))
+        timestamp = datetime.datetime.now().strftime(get_property('TIME_FORMAT', 'CONFIG'))
         if slave_data:
             temp_c = slave_data[slave_data.index('t=') + 2:]
             temp_c = int(temp_c.strip('\n'))
