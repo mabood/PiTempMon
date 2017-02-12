@@ -6,7 +6,7 @@ if [ ! -f TMON_PID ]; then
     echo "INVALIDPID" > TMON_PID
 fi
 
-ps -p | grep -f TMON_PID
+ps | grep -f TMON_PID
 RUNNING=$?
 
 if [ $RUNNING -eq 0 ];
