@@ -1,7 +1,12 @@
 #!/bin/sh
 
 cd /home/pi/dev/PiTempMon/bin
-ps | grep -f TMON_PID
+
+if [ ! -f TMON_PID ]; then
+    echo "INVALIDPID" > TMON_PID
+fi
+
+ps -p | grep -f TMON_PID
 RUNNING=$?
 
 if [ $RUNNING -eq 0 ];
