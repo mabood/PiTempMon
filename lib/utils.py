@@ -59,7 +59,7 @@ def log_dir_exists():
 def create_log_dir():
     if not log_dir_exists():
         try:
-            os.makedirs(get_property('LOG_DIR', 'CONFIG'))
+            os.makedirs(get_property('LOG_DIR', 'LOGS'))
         except OSError:
             logging.error('Unable to create log directory. Check location of LOG_DIR')
             report_failed_and_exit('Unable to create log directory')
