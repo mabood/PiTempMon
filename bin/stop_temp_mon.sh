@@ -9,7 +9,7 @@ read -r PID <TMON_PID
 if [ $RUNNING -eq 0 ]; then
    echo "Terminating TempMon..."
    set -x
-   kill -s SIGTERM $PID
+   kill -STOP $PID
 else
    echo "TempMon not running"
 fi
