@@ -32,7 +32,7 @@ def main():
         (timestamp, temp_c) = sensor.measure_temp()
         temp_f = sensor.convert_c_to_f(temp_c)
 
-        logging.info('Sensor read: %dC, %dF' % (temp_c, temp_f))
+        logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
 
         logging.info('Writing to file: %s...' % report_file)
         sensor.report_to_file(timestamp, temp_f, report_file)
