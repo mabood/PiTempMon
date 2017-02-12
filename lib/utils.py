@@ -26,6 +26,8 @@ def setup_logger(logfile=None, verbose=None, console=None):
     if console is None:
         console = get_property('CONSOLE_LOGS', 'LOGS')
 
+    create_log_dir()
+
     if verbose:
         log_level = logging.DEBUG
     else:
@@ -50,6 +52,18 @@ def device_exists():
 
 def report_dir_exists():
     return os.path.exists(get_property('REPORT_DIR', 'CONFIG'))
+
+def log_dir_exists():
+    return os.path.exists(get_property('LOG_DIR', 'CONFIG'))
+
+def create_log_dir():
+    if not log_dir_exists():
+        try:
+            os.makedirs(get_property('LOG_DIR', 'CONFIG'))
+        except OSError:
+            logging.error('Unable to create log directory. Check location of LOG_DIR')
+            report_failed_and_exit('Unable to create log directory')
+
 
 #checks for required files and fails out if not found
 def check_files():
