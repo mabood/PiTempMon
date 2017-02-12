@@ -17,7 +17,7 @@ else
     rm -rf RFManager/bin/RF_STATUS
     echo "Starting TempMon..."
     cd ../
-    python lib/TempMon.py
+    python lib/TempMon.py &
     PID=$!
     echo $PID
     echo $PID > bin/TMON_PID
