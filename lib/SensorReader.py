@@ -34,7 +34,7 @@ class SensorReader():
     def report_to_file(self, timestamp, temp, filename):
         try:
             fd = open(filename, 'a')
-            fd.write(timestamp + ',' + temp + '\n')
+            fd.write(timestamp + ',' + str(temp) + '\n')
 
         except IOError as e:
             logging.error('Unable to write report file: %s. \n%s' % (filename, e.message))
