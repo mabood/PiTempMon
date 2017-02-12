@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd /home/pi/dev/PiTempMon/bin
 ps | grep -f TMON_PID
 RUNNING=$?
 
