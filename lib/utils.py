@@ -54,7 +54,7 @@ def report_dir_exists():
     return os.path.exists(get_property('REPORT_DIR', 'CONFIG'))
 
 def log_dir_exists():
-    return os.path.exists(get_property('LOG_DIR', 'CONFIG'))
+    return os.path.exists(get_property('LOG_DIR', 'LOGS'))
 
 def create_log_dir():
     if not log_dir_exists():
