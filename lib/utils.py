@@ -2,6 +2,7 @@ import logging
 import ConfigParser
 import os
 import sys
+import datetime
 
 
 CONFIG_FILENAME = 'conf/temp.conf'
@@ -90,6 +91,13 @@ def report_success_and_exit(message=None):
         message = 'Data collection finished.'
     logging.info('SUCCESS: %s' % message)
     sys.exit(0)
+
+
+def generate_filetime():
+    format = get_property('FILE_TIME', 'CONFIG')
+    stamp = datetime.datetime.now().strftime(format)
+    return stamp
+
 
 #create pretty title in log
 def log_title(title):

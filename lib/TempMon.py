@@ -22,6 +22,7 @@ def main():
 
     # establish report file
     report_file = get_property('REPORT_DIR', 'CONFIG')
+    report_file += generate_filetime() + '-'
     report_file += get_property('REPORT_FILE', 'CONFIG')
 
     # establish polling interval
