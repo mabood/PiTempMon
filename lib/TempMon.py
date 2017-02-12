@@ -25,7 +25,7 @@ def main():
     report_file += get_property('REPORT_FILE', 'CONFIG')
 
     # establish polling interval
-    interval = get_property('POLLING_INTERVAL', 'SENSOR')
+    interval = float(get_property('POLLING_INTERVAL', 'SENSOR'))
 
     while True:
         logging.info('Polling sensor...')
