@@ -23,9 +23,9 @@ def setup_logger(logfile=None, verbose=None, console=None):
     if logfile is None:
         logfile = get_property('LOG_DIR', 'LOGS') + get_property('LOG_FILE', 'LOGS')
     if verbose is None:
-        verbose = get_property('VERBOSE_LOGS', 'LOGS')
+        verbose = int(get_property('VERBOSE_LOGS', 'LOGS'))
     if console is None:
-        console = get_property('CONSOLE_LOGS', 'LOGS')
+        console = int(get_property('CONSOLE_LOGS', 'LOGS'))
 
     create_log_dir()
 
