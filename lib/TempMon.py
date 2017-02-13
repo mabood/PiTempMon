@@ -1,6 +1,6 @@
 from utils import *
 import SensorReader
-import threading
+import IntervalTimer
 
 def poll_and_write(sensor, report_file):
     logging.info('Polling sensor...')
@@ -39,9 +39,10 @@ def main():
 
     # establish polling interval
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
-    print interval
-    while True:
-        threading.Timer(interval, poll_and_write(sensor, report_file)).start()
+
+    it = IntervalTimer.IntervalTimer(interval, poll_and_write, sensor, report_file)
+    it.stop()
+
 
 if __name__ == '__main__':
     main()
