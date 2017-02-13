@@ -17,6 +17,7 @@ class PlotDataWindow():
         self.plot_12 = get_property('PLOT_12', 'CONFIG')
         self.plot_24 = get_property('PLOT_24', 'CONFIG')
         self.plot_1W = get_property('PLOT_1W', 'CONFIG')
+        self.current = get_property('CURRENT', 'CONFIG')
 
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
@@ -95,3 +96,13 @@ class PlotDataWindow():
 
         with open(self.plot_dir + filename, 'w') as json_file:
             json.dump(data, json_file)
+
+    def write_current_temps(self, timestamp, s_temp, w_temp):
+        data = {
+            'timestamp':timestamp,
+            'sensor': {'temp_f': s_temp},
+            'weather': {'temp_f': w_temp}
+        }
+        with open(self.plot_dir + self.current + '.json', 'w') as json_file:
+            json.dump(data, json_file)
+
