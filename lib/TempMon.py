@@ -38,8 +38,8 @@ def main():
     report_file += get_property('REPORT_FILE', 'CONFIG')
 
     # establish polling interval
-    interval = float(get_property('POLLING_INTERVAL', 'SENSOR'))
-
+    interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
+    print interval
     while True:
         threading.Timer(interval, poll_and_write(sensor, report_file)).start()
 
