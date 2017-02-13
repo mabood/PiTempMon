@@ -1,6 +1,18 @@
 from utils import *
 import SensorReader
-import time
+import threading
+
+def poll_and_write(sensor, report_file):
+    logging.info('Polling sensor...')
+    (timestamp, temp_c) = sensor.measure_temp()
+    temp_f = sensor.convert_c_to_f(temp_c)
+
+    logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
+
+    logging.info('Writing to file: %s...' % report_file)
+    sensor.report_to_file(timestamp, temp_f, report_file)
+
+
 
 def main():
     # setup
@@ -29,16 +41,7 @@ def main():
     interval = float(get_property('POLLING_INTERVAL', 'SENSOR'))
 
     while True:
-        logging.info('Polling sensor...')
-        (timestamp, temp_c) = sensor.measure_temp()
-        temp_f = sensor.convert_c_to_f(temp_c)
-
-        logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
-
-        logging.info('Writing to file: %s...' % report_file)
-        sensor.report_to_file(timestamp, temp_f, report_file)
-
-        time.sleep(interval)
+        threading.Timer(interval, poll_and_write(sensor, report_file)).start()
 
 if __name__ == '__main__':
     main()
