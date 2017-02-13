@@ -17,7 +17,7 @@ def poll_and_write(sensor, weather, report_file, plot):
 
     logging.info('Writing report to file: %s...' % report_file)
     sensor.report_to_file(timestamp, temp_f, report_file, weather.temp_f)
-    logging.info('Generating data plots...' % report_file)
+    logging.info('Generating data plots...')
     plot.generate_12hr_dataset()
     plot.generate_24hr_dataset()
     plot.write_current_temps(timestamp, temp_f, weather.temp_f)
