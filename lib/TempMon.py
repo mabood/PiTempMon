@@ -1,18 +1,21 @@
+
 from utils import *
 import SensorReader
 import IntervalTimer
+import WeatherStats
 
-def poll_and_write(sensor, report_file):
+def poll_and_write(sensor, weather, report_file):
     logging.info('Polling sensor...')
     (timestamp, temp_c) = sensor.measure_temp()
-    temp_f = sensor.convert_c_to_f(temp_c)
 
+    temp_f = sensor.convert_c_to_f(temp_c)
     logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
 
+    logging.info('Requesting weather stats...')
+    logging.info('Current temperature in %s: %s' % (weather.city, str(weather.temp_f)))
+
     logging.info('Writing to file: %s...' % report_file)
-    sensor.report_to_file(timestamp, temp_f, report_file)
-
-
+    sensor.report_to_file(timestamp, temp_f, report_file, weather.temp_f)
 
 def main():
     # setup
@@ -32,6 +35,9 @@ def main():
     # initialize sensor reader
     sensor = SensorReader.SensorReader()
 
+    # initialize WeatherStats object
+    weather = WeatherStats.WeatherStats()
+
     # establish report file
     report_file = get_property('REPORT_DIR', 'CONFIG')
     report_file += generate_filetime() + '-'
@@ -40,8 +46,8 @@ def main():
     # establish polling interval
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
-    poll_and_write(sensor, report_file)
-    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, report_file)
+    poll_and_write(sensor, weather, report_file)
+    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, report_file)
 
 
 if __name__ == '__main__':

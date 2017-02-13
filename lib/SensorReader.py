@@ -31,10 +31,14 @@ class SensorReader():
     def convert_c_to_f(self, temp_c):
         return (temp_c * 1.8) + 32
 
-    def report_to_file(self, timestamp, temp, filename):
+    def report_to_file(self, timestamp, temp, filename, *more_columns):
+        report = timestamp + ',' + str(temp)
+        for column in more_columns:
+            report += ',' + str(column)
+
         try:
             fd = open(filename, 'a')
-            fd.write(timestamp + ',' + str(temp) + '\n')
+            fd.write(report + '\n')
 
         except IOError as e:
             logging.error('Unable to write report file: %s. \n%s' % (filename, e.message))
