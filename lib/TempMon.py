@@ -5,7 +5,7 @@ import SensorReader
 import IntervalTimer
 import WeatherStats
 
-def poll_and_write(sensor, weather, report_file):
+def poll_and_write(sensor, weather, report_file, plot):
     logging.info('Polling sensor...')
     (timestamp, temp_c) = sensor.measure_temp()
 
@@ -17,7 +17,6 @@ def poll_and_write(sensor, weather, report_file):
 
     logging.info('Writing to file: %s...' % report_file)
     sensor.report_to_file(timestamp, temp_f, report_file, weather.temp_f)
-    plot = PlotDataWindow()
     plot.generate_12hr_dataset()
     plot.generate_24hr_dataset()
 
@@ -42,6 +41,9 @@ def main():
     # initialize WeatherStats object
     weather = WeatherStats.WeatherStats()
 
+    # initialize WindowPlotter
+    plot = PlotDataWindow()
+
     # establish report file
     report_file = get_property('REPORT_DIR', 'CONFIG')
     report_file += generate_filetime() + '-'
@@ -51,7 +53,7 @@ def main():
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
     poll_and_write(sensor, weather, report_file)
-    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, report_file)
+    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, report_file, plot)
 
 
 if __name__ == '__main__':

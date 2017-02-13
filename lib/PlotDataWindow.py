@@ -11,8 +11,12 @@ class PlotDataWindow():
         self.file_time_format = get_property('FILE_TIME', 'CONFIG')
         self.latest_report = self.get_latest_report()
         self.full_report = self.read_report(self.latest_report)
+        self.poll_interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
         self.plot_dir = get_property('PLOT_DATA_DIR', 'CONFIG')
+        self.plot_12 = get_property('PLOT_12', 'CONFIG')
+        self.plot_24 = get_property('PLOT_24', 'CONFIG')
+        self.plot_1W = get_property('PLOT_1W', 'CONFIG')
 
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
@@ -41,7 +45,7 @@ class PlotDataWindow():
         ticks.sort(reverse=True)
         ticks = map(lambda x: str(x) + ':00', ticks)
 
-        self.write_window_data(get_property('PLOT_12', 'CONFIG') + '.json', 43200, ticks)
+        self.write_window_data(self.plot_12 + '.json', 43200, ticks)
 
     def generate_24hr_dataset(self):
         # generate 12 ticks
@@ -56,11 +60,11 @@ class PlotDataWindow():
         ticks.sort(reverse=True)
         ticks = map(lambda x: str(x) + ':00', ticks)
 
-        self.write_window_data(get_property('PLOT_24', 'CONFIG') + '.json', 86400, ticks)
+        self.write_window_data(self.plot_24 + '.json', 86400, ticks)
 
     def write_window_data(self, filename, window_seconds, ticks):
         # fun math
-        data_interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
+        data_interval = self.poll_interval
         total_data_points = window_seconds / data_interval
 
         # 360 data points
