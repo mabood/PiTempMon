@@ -68,7 +68,7 @@ class PlotDataWindow():
         if len(self.full_report) > total_data_points:
             sig_points = total_data_points[len(self.full_report) - total_data_points:]
         else:
-            sig_points = total_data_points
+            sig_points = self.full_report
 
         plot_list = []
         counter = 0
