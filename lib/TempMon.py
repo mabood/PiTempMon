@@ -41,7 +41,6 @@ def main():
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
     it = IntervalTimer.IntervalTimer(interval, poll_and_write, sensor, report_file)
-    it.stop()
 
 
 if __name__ == '__main__':
