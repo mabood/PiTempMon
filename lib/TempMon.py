@@ -1,5 +1,6 @@
 
 from utils import *
+from PlotDataWindow import PlotDataWindow
 import SensorReader
 import IntervalTimer
 import WeatherStats
@@ -12,10 +13,13 @@ def poll_and_write(sensor, weather, report_file):
     logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
 
     logging.info('Requesting weather stats...')
-    logging.info('Current temperature in %s: %s' % (weather.city, str(weather.temp_f)))
+    logging.info('Current temperature in %s: %sF' % (weather.city, str(weather.temp_f)))
 
     logging.info('Writing to file: %s...' % report_file)
     sensor.report_to_file(timestamp, temp_f, report_file, weather.temp_f)
+    plot = PlotDataWindow()
+    plot.generate_12hr_dataset()
+    plot.generate_24hr_dataset()
 
 def main():
     # setup
