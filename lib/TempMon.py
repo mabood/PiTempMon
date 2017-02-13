@@ -52,7 +52,7 @@ def main():
     # establish polling interval
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
-    poll_and_write(sensor, weather, report_file)
+    poll_and_write(sensor, weather, report_file, plot)
     it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, report_file, plot)
 
 
