@@ -64,20 +64,23 @@ class PlotDataWindow():
         total_data_points = window_seconds / data_interval
 
         # 360 data points
-        point_gap = int(total_data_points / 360)
         if len(self.full_report) > total_data_points:
             sig_points = total_data_points[len(self.full_report) - total_data_points:]
         else:
             sig_points = self.full_report
 
+        point_gap = int(total_data_points / 360)
+        if point_gap < 1:
+            point_gap = 1
+
         plot_list = []
-        counter = 0
+        counter = 1
         for tuple in sig_points:
             if counter is point_gap:
                 cols = tuple.split(',')
                 tm = cols[0].split('T')[1]
                 plot_list.append([tm, cols[1], cols[2]])
-                counter = 0
+                counter = 1
             else:
                 counter += 1
 
