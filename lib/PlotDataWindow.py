@@ -88,14 +88,13 @@ class PlotDataWindow():
 
         plot_list = []
         counter = 1
-        for tuple in sig_points:
-            if counter is point_gap:
-                cols = tuple.split(',')
+        for tup in sig_points:
+            if counter % point_gap is 0:
+                cols = tup.split(',')
                 tm = cols[0].split('T')[1]
                 plot_list.append([tm, cols[1], cols[2]])
-                counter = 1
-            else:
-                counter += 1
+
+            counter += 1
 
         data = {
             'ticks':ticks,
@@ -104,6 +103,7 @@ class PlotDataWindow():
 
         with open(self.plot_dir + filename, 'w') as json_file:
             json.dumps(data, json_file, sort_keys=True, indent=4)
+        logging.info('Wrote %d points to file: %s', (counter / point_gap, filename))
 
     def write_current_temps(self, timestamp, s_temp, w_temp):
         data = {
@@ -113,4 +113,5 @@ class PlotDataWindow():
         }
         with open(self.plot_dir + self.current + '.json', 'w') as json_file:
             json.dumps(data, json_file, sort_keys=True, indent=4)
+
 
