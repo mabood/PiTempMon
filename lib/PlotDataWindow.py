@@ -32,11 +32,14 @@ class PlotDataWindow():
             fd = open(self.report_dir + report_file)
             lines = fd.readlines()
             fd.close()
-            self.full_report = lines
         except:
             logging.error('Unable to read report file: %s' % report_file)
 
         return lines
+
+    def read_latest_report(self):
+        self.latest_report = self.get_latest_report()
+        self.full_report = self.read_report(self.latest_report)
 
     def generate_12hr_dataset(self):
         #generate 12 ticks
