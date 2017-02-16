@@ -47,11 +47,13 @@ class PlotDataWindow():
         last_hour = int(last_tuple.split(',')[0].split(':')[0].split('T')[1])
         ticks = [last_hour]
         for i in range(1, 12):
-            tick = last_hour - i
-            if tick < 0:
-                tick += 24
+            tick = last_hour - (i)
             ticks.append(tick)
         ticks.sort(reverse=True)
+
+        for i, tick in enumerate(ticks):
+            if tick < 0:
+                ticks[i] += 24
         ticks = map(lambda x: str(x) + ':00', ticks)
 
         self.write_window_data(self.plot_12 + '.json', 43200, ticks)
@@ -66,9 +68,9 @@ class PlotDataWindow():
             ticks.append(tick)
         ticks.sort(reverse=True)
 
-        for tick in ticks:
+        for i, tick in enumerate(ticks):
             if tick < 0:
-                tick += 24
+                ticks[i] += 24
 
         ticks = map(lambda x: str(x) + ':00', ticks)
 
