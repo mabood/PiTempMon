@@ -102,7 +102,7 @@ class PlotDataWindow():
         }
 
         with open(self.plot_dir + filename, 'w') as json_file:
-            json.dumps(data, json_file, sort_keys=True, indent=4)
+            json.dump(data, json_file, sort_keys=True, indent=4)
         logging.info('Wrote %d points to file: %s' % (counter / point_gap, filename))
 
     def write_current_temps(self, timestamp, s_temp, w_temp):
@@ -112,6 +112,6 @@ class PlotDataWindow():
             'weather': {'temp_f': w_temp}
         }
         with open(self.plot_dir + self.current + '.json', 'w') as json_file:
-            json.dumps(data, json_file, sort_keys=True, indent=4)
+            json.dump(data, json_file, sort_keys=True, indent=4)
 
 
