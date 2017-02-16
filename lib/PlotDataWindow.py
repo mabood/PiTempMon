@@ -63,10 +63,13 @@ class PlotDataWindow():
         ticks = [last_hour]
         for i in range(1, 12):
             tick = last_hour - (i * 2)
-            if tick < 0:
-                tick += 24
             ticks.append(tick)
         ticks.sort(reverse=True)
+
+        for tick in ticks:
+            if tick < 0:
+                tick += 24
+
         ticks = map(lambda x: str(x) + ':00', ticks)
 
         self.write_window_data(self.plot_24 + '.json', 86400, ticks)
