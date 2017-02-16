@@ -27,11 +27,16 @@ class PlotDataWindow():
         return dates[0].strftime(self.file_time_format) + tail
 
     def read_report(self, report_file):
+        lines = []
         try:
             fd = open(self.report_dir + report_file)
-            return fd.readlines()
+            lines = fd.readlines()
+            fd.close()
+            self.full_report = lines
         except:
             logging.error('Unable to read report file: %s' % report_file)
+
+        return lines
 
     def generate_12hr_dataset(self):
         #generate 12 ticks
