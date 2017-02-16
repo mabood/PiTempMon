@@ -95,7 +95,7 @@ class PlotDataWindow():
         }
 
         with open(self.plot_dir + filename, 'w') as json_file:
-            json.dump(data, json_file)
+            json.dump(data, json_file, indent=4)
 
     def write_current_temps(self, timestamp, s_temp, w_temp):
         data = {
@@ -104,5 +104,5 @@ class PlotDataWindow():
             'weather': {'temp_f': w_temp}
         }
         with open(self.plot_dir + self.current + '.json', 'w') as json_file:
-            json.dump(data, json_file)
+            json.dump(data, json_file, indent=4)
 
