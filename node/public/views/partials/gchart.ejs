@@ -22,7 +22,6 @@
             parseFloat(plot_data.dataset[i][2])
         ]);
     }
-    console.log(plot_data.vticks);
 
 
     var data = google.visualization.arrayToDataTable(plot_array);
@@ -41,7 +40,7 @@
         hAxis: {
             textStyle: { color: '#888'},
             gridlines: {color: '#000', count:0},
-            ticks: plot_data.vticks
+            ticks: plot_data.hticks
         },
 
         vAxes: [
