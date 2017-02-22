@@ -1,0 +1,56 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    <% include ../partials/gchart.ejs%>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron" style="background-color: #333;">
+            <table style="border-spacing: 100px;">
+                <col width="300">
+                <col width="300">
+                <tr>
+                    <td>
+                        <h1 style="color:#00ff99;"><%= current_sensor %></h1>
+                        <p>Current room temperature</p>
+                    </td>
+                    <td>
+                        <h1 style="color:#5f42f4;"><%= current_weather %></h1>
+                        <p>Current outside temperature</p>
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#">12-hour</a></li>
+            <li><a href="#">24-hour</a></li>
+            <li><a href="#">weekly</a></li>
+        </ul>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Temperature data from the last 12 hours
+            </div>
+            <div class="panel-footer">
+                <div id="curve_chart" style="width: auto; height: 600px"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>

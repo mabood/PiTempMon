@@ -1,0 +1,64 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+    var plot_data = $.ajax({
+        url: "/12hr-data",
+        async: false
+        }).responseText;
+
+    plot_data = JSON.parse(plot_data);
+
+    var plot_array = [['Time', 'Room Temperature', 'Local Temperature']];
+    for (var i = 0; i < plot_data.dataset.length; i++) {
+        plot_array.push([
+            plot_data.dataset[i][0],
+            parseFloat(plot_data.dataset[i][1]),
+            parseFloat(plot_data.dataset[i][2])
+        ]);
+    }
+    console.log(plot_data.ticks);
+
+
+    var data = google.visualization.arrayToDataTable(plot_array);
+
+    var options = {
+        curveType: 'function',
+        width: '100%',
+        height: '100%',
+        backgroundColor: {fill: '#000'},
+        chartArea:{width:'90%', height: '80%', backgroundColor: '#000'},
+        titleTextStyle: { color: '#fff'},
+        legend: {position: 'top', textStyle: {color: '#888', fontSize: 16}},
+        colors:['#00ff99', '#5f42f4'],
+        crosshair: { focused: { color: '#3bc', opacity: 0.8 } },
+
+        hAxis: {
+            textStyle: { color: '#888'},
+            gridlines: {color: '#000', count:0},
+            ticks: plot_data.ticks
+        },
+
+        vAxes: [
+            {
+                title:'Temperature in Fahrenheit',
+                titleTextStyle: {
+                    color: '#888'
+                },
+                textStyle: {color: '#888'},
+                gridlines: {color: '#333'},
+                ticks: [{v:30, f:'30°'}, {v:40, f:'40°'}, {v:50, f:'50°'}, {v:60, f:'60°'}, {v:70, f:'70°'}, {v:80, f:'80°'}, {v:90, f:'90°'}, {v:100, f:'100°'}]
+            }
+        ]
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+    }
+</script>
