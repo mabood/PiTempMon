@@ -15,10 +15,10 @@ app.set('view engine', 'ejs');
 
 // index page
 app.get('/', function(req, res) {
-    var current_sensor = plot.currentSensorTemp + '°';
-    var current_weather = plot.currentWeatherTemp + '°';
-    var plot_12hr = plot.read12hrPlot;
-    var plot_24hr = plot.read24hrPlot;
+    var current_sensor = plot.currentSensorTemp() + '°';
+    var current_weather = plot.currentWeatherTemp() + '°';
+    var plot_12hr = plot.current12hrPlot();
+    var plot_24hr = plot.current24hrPlot();
     res.render('pages/index', {
         current_sensor: current_sensor,
         current_weather: current_weather,
@@ -41,13 +41,24 @@ app.get('/lineplot', function(req, res) {
 });
 
 app.get('/12hr-data', function(req, res){
-    var plot_12hr = plot.read12hrPlot;
+    var plot_12hr = plot.current12hrPlot;
 
     // input value from search
     var val = req.query.search;
     console.log(plot_12hr);
 
     res.send(plot_12hr);
+
+});
+
+app.get('/24hr-data', function(req, res){
+    var plot_24hr = plot.current24hrPlot;
+
+    // input value from search
+    var val = req.query.search;
+    console.log(plot_24hr);
+
+    res.send(plot_24hr);
 
 });
 
