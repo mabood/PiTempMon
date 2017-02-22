@@ -30,7 +30,7 @@ class PlotDataWindow():
         lines = []
         try:
             fd = open(self.report_dir + report_file)
-            lines = fd.readlines()
+            lines = map(lambda x: x.strip('\n'), fd.readlines())
             fd.close()
         except:
             logging.error('Unable to read report file: %s' % report_file)
@@ -42,41 +42,41 @@ class PlotDataWindow():
         self.full_report = self.read_report(self.latest_report)
 
     def generate_12hr_dataset(self):
-        #generate 12 ticks
+        #generate 12 vticks
         last_tuple = self.full_report[len(self.full_report) - 1]
         last_hour = int(last_tuple.split(',')[0].split(':')[0].split('T')[1])
-        ticks = [last_hour]
+        vticks = [last_hour]
         for i in range(1, 12):
             tick = last_hour - (i)
-            ticks.append(tick)
-        ticks.sort(reverse=True)
+            vticks.append(tick)
+        vticks.sort(reverse=True)
 
-        for i, tick in enumerate(ticks):
+        for i, tick in enumerate(vticks):
             if tick < 0:
-                ticks[i] += 24
-        ticks = map(lambda x: str(x) + ':00', ticks)
+                vticks[i] += 24
+        vticks = map(lambda x: str(x) + ':00', vticks)
 
-        self.write_window_data(self.plot_12 + '.json', 43200, ticks)
+        self.write_window_data(self.plot_12 + '.json', 43200, vticks)
 
     def generate_24hr_dataset(self):
-        # generate 12 ticks
+        # generate 12 vticks
         last_tuple = self.full_report[len(self.full_report) - 1]
         last_hour = int(last_tuple.split(',')[0].split(':')[0].split('T')[1])
-        ticks = [last_hour]
+        vticks = [last_hour]
         for i in range(1, 12):
             tick = last_hour - (i * 2)
-            ticks.append(tick)
-        ticks.sort(reverse=True)
+            vticks.append(tick)
+        vticks.sort(reverse=True)
 
-        for i, tick in enumerate(ticks):
+        for i, tick in enumerate(vticks):
             if tick < 0:
-                ticks[i] += 24
+                vticks[i] += 24
 
-        ticks = map(lambda x: str(x) + ':00', ticks)
+        vticks = map(lambda x: str(x) + ':00', vticks)
 
-        self.write_window_data(self.plot_24 + '.json', 86400, ticks)
+        self.write_window_data(self.plot_24 + '.json', 86400, vticks)
 
-    def write_window_data(self, filename, window_seconds, ticks):
+    def write_window_data(self, filename, window_seconds, vticks):
         # fun math
         data_interval = self.poll_interval
         total_data_points = window_seconds / data_interval
@@ -102,7 +102,7 @@ class PlotDataWindow():
             counter += 1
 
         data = {
-            'ticks':ticks,
+            'v_vticks':vticks,
             'dataset':plot_list
         }
 

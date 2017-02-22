@@ -18,8 +18,8 @@ function readCurrentWeatherTemp(){
     return readJSON(__dirname + '/datasets/current.json')['weather']['temp_f'].toFixed(1);
 }
 
-module.exports.read12hrPlot = readJSON('datasets/12hr.json');
-module.exports.read24hrPlot = readJSON('datasets/24hr.json');
+module.exports.read12hrPlot = readJSON(__dirname + 'datasets/12hr.json');
+module.exports.read24hrPlot = readJSON(__dirname + 'datasets/24hr.json');
 
 module.exports.currentSensorTemp = readCurrentSensorTemp();
 module.exports.currentWeatherTemp = readCurrentWeatherTemp();
