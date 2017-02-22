@@ -55,7 +55,6 @@ class PlotDataWindow():
             if tick < 0:
                 hticks[i] += 24
         hticks = map(lambda x: str(x) + ':00', hticks)
-        hticks = map(lambda x: {'v':x + ':00', 'f':x}, hticks)
 
         self.write_window_data(self.plot_12 + '.json', 43200, hticks)
 
@@ -74,7 +73,6 @@ class PlotDataWindow():
                 hticks[i] += 24
 
         hticks = map(lambda x: str(x) + ':00', hticks)
-        hticks = map(lambda x: {'v': x + ':00', 'f': x}, hticks)
 
         self.write_window_data(self.plot_24 + '.json', 86400, hticks)
 
@@ -99,6 +97,7 @@ class PlotDataWindow():
             if counter % point_gap is 0:
                 cols = tup.split(',')
                 tm = cols[0].split('T')[1]
+                tm = tm[:-3]
                 plot_list.append([tm, cols[1], cols[2]])
 
             counter += 1
