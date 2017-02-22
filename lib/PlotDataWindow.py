@@ -55,6 +55,7 @@ class PlotDataWindow():
             if tick < 0:
                 vticks[i] += 24
         vticks = map(lambda x: str(x) + ':00', vticks)
+        vticks = map(lambda x: {'v':x + ':00', 'f':x}, vticks)
 
         self.write_window_data(self.plot_12 + '.json', 43200, vticks)
 
@@ -73,6 +74,7 @@ class PlotDataWindow():
                 vticks[i] += 24
 
         vticks = map(lambda x: str(x) + ':00', vticks)
+        vticks = map(lambda x: {'v': x + ':00', 'f': x}, vticks)
 
         self.write_window_data(self.plot_24 + '.json', 86400, vticks)
 
