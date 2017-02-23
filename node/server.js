@@ -31,14 +31,19 @@ app.get('/', function(req, res) {
 
 // about page
 app.get('/about', function(req, res) {
-    res.render('pages/about');
+    var current_date = plot.currentDate();
+    res.render('pages/about', {
+        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy."),
+        current_time: dateFormat(current_date, "h:MM:ss TT")
+    });
 });
 
 // about page
 app.get('/lineplot', function(req, res) {
-    var current_temp = "68";//(String(68.5) + '°');
+    var current_date = plot.currentDate();
     res.render('pages/lineplot', {
-       current_temp: current_temp
+        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy."),
+        current_time: dateFormat(current_date, "h:MM:ss TT")
     });
 });
 

@@ -16,22 +16,22 @@
         <div class="jumbotron" style="background-color: #333;">
 
             <table style="border-spacing: 100px;">
-                <col width="300">
-                <col width="300">
+                <col width="400">
+                <col width="400">
                 <tr>
                     <td>
                         <h1 style="color:#00ff99;"><%= current_sensor %></h1>
-                        <p>Current room temperature</p>
+                        <h3>Room Temperature</h3>
                     </td>
                     <td>
                         <h1 style="color:#5f42f4;"><%= current_weather %></h1>
-                        <p>Current outside temperature</p>
+                        <h3>Outside Temperature</h3>
                     </td>
                 </tr>
 
             </table>
 
-            <h3>Measured at <%= current_time %></h3>
+            <p style="color:#777;">Measured at <%= current_time %></p>
 
         </div>
 
