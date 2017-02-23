@@ -5,6 +5,7 @@ var path = require('path');
 var app = express();
 //var Promise = require('promise');
 var plot = require('./plotReader');
+var dateFormat = require('dateformat');
 
 app.set('views', path.join(__dirname, '/public/views'));
 

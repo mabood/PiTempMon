@@ -6,6 +6,7 @@
     "express": "^4.6.1",
     "path": "^0.12.7",
     "forever": "^0.15.3",
-    "forever-monitor": "^1.7.1"
+    "forever-monitor": "^1.7.1",
+    "dateformat": "^2.0.0"
   }
 }
