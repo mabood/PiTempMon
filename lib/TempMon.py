@@ -10,7 +10,7 @@ def poll_and_write(sensor, weather, report_file, plot=None):
     (timestamp, temp_c) = sensor.measure_temp()
 
     temp_f = sensor.convert_c_to_f(temp_c)
-    logging.info('Sensor read: %fC, %fF' % (temp_c, temp_f))
+    logging.info('Sensor read: %fF' % temp_f)
 
     logging.info('Requesting weather stats...')
     logging.info('Current temperature in %s: %sF' % (weather.city, str(weather.temp_f)))

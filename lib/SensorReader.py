@@ -6,6 +6,7 @@ class SensorReader():
         self.device_dir = get_property('DEVICES_DIR', 'SENSOR')
         self.device_name = get_property('DEVICE_NAME', 'SENSOR')
         self.slave_file = get_property('REPORT_FILE', 'SENSOR')
+        self.time_frmt = get_property('TIME_FORMAT', 'CONFIG')
         self.full_path = self.device_dir + self.device_name + '/' + self.slave_file
 
     def read_slave_file(self):
@@ -19,7 +20,7 @@ class SensorReader():
 
     def measure_temp(self):
         slave_data = self.read_slave_file()
-        timestamp = datetime.datetime.now().strftime(get_property('TIME_FORMAT', 'CONFIG'))
+        timestamp = datetime.datetime.now().strftime(self.time_frmt)
         if slave_data:
             temp_c = slave_data[slave_data.index('t=') + 2:]
             temp_c = int(temp_c.strip('\n'))

@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
         current_sensor: current_sensor,
         current_weather: current_weather,
         current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
-        current_time: dateFormat(current_date, "h:MM:ss TT"),
+        current_time: dateFormat(current_date, "h:MM TT"),
         weather_local: weather_location
     });
 });
@@ -36,7 +36,7 @@ app.get('/about', function(req, res) {
     var current_date = plot.currentDate();
     res.render('pages/about', {
         current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
-        current_time: dateFormat(current_date, "h:MM:ss TT")
+        current_time: dateFormat(current_date, "h:MM TT")
     });
 });
 
@@ -45,7 +45,7 @@ app.get('/lineplot', function(req, res) {
     var current_date = plot.currentDate();
     res.render('pages/lineplot', {
         current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
-        current_time: dateFormat(current_date, "h:MM:ss TT")
+        current_time: dateFormat(current_date, "h:MM TT")
     });
 });
 
@@ -54,7 +54,6 @@ app.get('/12hr-data', function(req, res){
 
     // input value from search
     var val = req.query.search;
-    console.log(plot_12hr);
 
     res.send(plot_12hr);
 
@@ -65,7 +64,6 @@ app.get('/24hr-data', function(req, res){
 
     // input value from search
     var val = req.query.search;
-    console.log(plot_24hr);
 
     res.send(plot_24hr);
 
