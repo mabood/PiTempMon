@@ -146,7 +146,7 @@ class PlotDataWindow():
             #ticks < 10 apart -> bcome 10 intervals
             vals = self.generate_ticks_on_range(min_point, 10, int(math.ceil(std_dev / 10)))
 
-        return self.format_ticks(map(lambda a: (a, str(a) + '°'), vals))
+        return self.format_ticks(map(lambda a: (a, str(a)), vals))
 
     def generate_ticks_on_range(self, low, difference, sig_ticks):
         floor = low - (low % difference) - difference
