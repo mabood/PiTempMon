@@ -49,28 +49,8 @@ app.get('/lineplot', function(req, res) {
     });
 });
 
-app.get('/plot-data', function(req, res){
-
-    var window = req.window;
-    switch (window) {
-        case "12hr":
-            res.send(plot.current12hrPlot());
-            break;
-        case "24hr":
-            res.send(plot.current24hrPlot());
-            break;
-        case "2d":
-            res.send(plot.current2dPlot());
-            break;
-        case "5d":
-            res.send(plot.current5dPlot());
-            break;
-        case "10d":
-            res.send(plot.current10dPlot());
-            break;
-
-    }
-
+app.get('/plot-data/12hr', function(req, res){
+    res.send(plot.current12hrPlot());
 });
 
 

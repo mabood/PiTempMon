@@ -10,9 +10,6 @@
     var plot_data = $.ajax({
         type: "GET",
         url: "/plot-data",
-        data: JSON.stringify({
-           "window": "12hr"
-        }),
         async: false
         }).responseText;
 
