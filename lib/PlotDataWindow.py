@@ -116,42 +116,45 @@ class PlotDataWindow():
         div = std_dev / 10.0
         if div < 0.1:
             # ticks < 0.1 apart -> become 0.1 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.1)
+            vals = self.generate_ticks_on_range(min_point, max_point, 0.1)
 
         elif div < 0.2:
             #ticks < 0.2 apart -> become 0.2 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.2)
+            vals = self.generate_ticks_on_range(min_point, max_point, 0.2)
 
         elif div < 0.25:
             #ticks < 0.2 apart -> become 0.2 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.25)
+            vals = self.generate_ticks_on_range(min_point, max_point, 0.25)
 
         elif div < 0.5:
             #ticks < 0.5 apart -> become 0.5 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.5)
+            vals = self.generate_ticks_on_range(min_point, max_point, 0.5)
 
         elif div < 1:
             #ticks < 1 apart -> become 1 intervals
-            vals = self.generate_ticks_on_range(min_point, 1)
+            vals = self.generate_ticks_on_range(min_point, max_point, 1)
 
         elif div < 2:
             #ticks < 2 apart -> become 2 intervals
-            vals = self.generate_ticks_on_range(min_point, 2)
+            vals = self.generate_ticks_on_range(min_point, max_point, 2)
 
         elif div < 5:
             #ticks < 5 apart -> bcome 5 intervals
-            vals = self.generate_ticks_on_range(min_point, 5)
+            vals = self.generate_ticks_on_range(min_point, max_point, 5)
 
         elif div < 10:
             #ticks < 10 apart -> bcome 10 intervals
-            vals = self.generate_ticks_on_range(min_point, 10)
+            vals = self.generate_ticks_on_range(min_point, max_point, 10)
 
         return self.format_ticks(map(lambda a: (a, str(a)), vals))
 
-    def generate_ticks_on_range(self, low, difference):
+    def generate_ticks_on_range(self, low, high, difference):
         floor = low - (low % difference) - difference
+        ceiling = high - (high % difference) + difference
+        num_ticks = (ceiling - floor) / difference + 2
+
         vals = [floor]
-        for i in range(1, 11):
+        for i in range(1, num_ticks):
             vals.append(floor + (difference * i))
 
         return vals

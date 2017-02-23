@@ -11,8 +11,21 @@
     </header>
 
     <main>
-        <div>
-            <div id="curve_chart" style="width: auto; height: 600px"></div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#" data-toggle="tab">12-hour</a></li>
+            <li><a href="#" data-toggle="tab">24-hour</a></li>
+            <li><a href="#" data-toggle="tab">2-day</a></li>
+            <li><a href="#" data-toggle="tab">5-day</a></li>
+            <li><a href="#" data-toggle="tab">10-day</a></li>
+        </ul>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Temperature data from the last 12 hours
+            </div>
+            <div class="panel-footer">
+                <div id="curve_chart" style="width: auto; height: 600px"></div>
+            </div>
         </div>
     </main>
 
