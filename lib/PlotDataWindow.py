@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from utils import *
 from os import listdir
 from os.path import isfile, join
 import datetime
 import json
+import math
 
 class PlotDataWindow():
     def __init__(self):
@@ -13,11 +16,18 @@ class PlotDataWindow():
         self.full_report = self.read_report(self.latest_report)
         self.poll_interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
-        self.plot_dir = get_property('PLOT_DATA_DIR', 'CONFIG')
-        self.plot_12 = get_property('PLOT_12', 'CONFIG')
-        self.plot_24 = get_property('PLOT_24', 'CONFIG')
-        self.plot_1W = get_property('PLOT_1W', 'CONFIG')
-        self.current = get_property('CURRENT', 'CONFIG')
+        self.plot_dir = get_property('PLOT_DATA_DIR', 'PLOTS')
+        self.plot_12 = get_property('PLOT_12', 'PLOTS')
+        self.plot_24 = get_property('PLOT_24', 'PLOTS')
+        self.plot_2d = get_property('PLOT_2d', 'PLOTS')
+        self.plot_5d = get_property('PLOT_5d', 'PLOTS')
+        self.plot_10d = get_property('PLOT_10d', 'PLOTS')
+        self.current = get_property('CURRENT', 'PLOTS')
+
+        self.num_data_points = int(get_property('PLOT_POINTS', 'PLOTS'))
+        self.max_hticks = int(get_property('MAX_HTICKS', 'PLOTS'))
+        self.max_vticks = 12
+        self.day_seconds = 86400
 
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
@@ -41,45 +51,124 @@ class PlotDataWindow():
         self.latest_report = self.get_latest_report()
         self.full_report = self.read_report(self.latest_report)
 
+    def write_all_datasets(self):
+        self.generate_12hr_dataset()
+        self.generate_24hr_dataset()
+        self.generate_2d_dataset()
+        self.generate_5d_dataset()
+        self.generate_10d_dataset()
+
     def generate_12hr_dataset(self):
-        #generate 12 hticks
-        last_tuple = self.full_report[len(self.full_report) - 1]
-        last_hour = int(last_tuple.split(',')[0].split(':')[0].split('T')[1])
-        hticks = [last_hour]
-        for i in range(1, 12):
-            tick = last_hour - (i)
-            hticks.append(tick)
-        hticks = hticks[::-1]
-
-        for i, tick in enumerate(hticks):
-            if tick < 0:
-                hticks[i] += 24
-        hticks = map(lambda x: str(x) + ':00', hticks)
-
-        self.write_window_data(self.plot_12 + '.json', 43200, hticks)
+        points = self.extract_data_window(self.day_seconds / 2)
+        hticks = self.generate_hticks(points)
+        vticks = self.generate_vticks(points)
+        self.write_window_data(self.plot_12 + '.json', points, hticks, vticks)
 
     def generate_24hr_dataset(self):
-        # generate 12 hticks
-        last_tuple = self.full_report[len(self.full_report) - 1]
-        last_hour = int(last_tuple.split(',')[0].split(':')[0].split('T')[1])
-        hticks = [last_hour]
-        for i in range(1, 12):
-            tick = last_hour - (i * 2)
-            hticks.append(tick)
-        hticks = hticks[::-1]
+        points = self.extract_data_window(self.day_seconds)
+        hticks = self.generate_hticks(points)
+        vticks = self.generate_vticks(points)
+        self.write_window_data(self.plot_24 + '.json', points, hticks, vticks)
 
-        for i, tick in enumerate(hticks):
-            if tick < 0:
-                hticks[i] += 24
+    def generate_2d_dataset(self):
+        points = self.extract_data_window(self.day_seconds * 2)
+        hticks = self.generate_hticks(points)
+        vticks = self.generate_vticks(points)
+        self.write_window_data(self.plot_2d + '.json', points, hticks, vticks)
 
-        hticks = map(lambda x: str(x) + ':00', hticks)
+    def generate_5d_dataset(self):
+        points = self.extract_data_window(self.day_seconds * 5)
+        hticks = self.generate_hticks(points)
+        vticks = self.generate_vticks(points)
+        self.write_window_data(self.plot_5d + '.json', points, hticks, vticks)
 
-        self.write_window_data(self.plot_24 + '.json', 86400, hticks)
+    def generate_10d_dataset(self):
+        points = self.extract_data_window(self.day_seconds * 10)
+        hticks = self.generate_hticks(points)
+        vticks = self.generate_vticks(points)
+        self.write_window_data(self.plot_10d + '.json', points, hticks, vticks)
 
-    def write_window_data(self, filename, window_seconds, hticks):
+    def generate_hticks(self, points):
+        if len(points) < 1:
+            return None
+
+        floor_time = datetime.datetime.strptime(points[0][0], '%H:%M:%S')
+        ceil_time = datetime.datetime.strptime(points[len(points) - 1][0], '%H:%M:%S')
+
+
+
+    def generate_vticks(self, points):
+
+        if len(points) < 2:
+            return None
+
+        all_points = []
+        vals = []
+
+        for point in points:
+            all_points.append(float(point[1]))
+            all_points.append(float(point[2]))
+
+        max_point = max(all_points)
+        min_point = min(all_points)
+        std_dev = max_point - min_point
+
+        div = std_dev / 10.0
+        if div < 0.1:
+            # ticks < 0.1 apart -> become 0.1 intervals
+            vals = self.generate_ticks_on_range(min_point, 0.1, math.ceil(std_dev / 0.1))
+
+        elif div < 0.2:
+            #ticks < 0.2 apart -> become 0.2 intervals
+            vals = self.generate_ticks_on_range(min_point, 0.2, math.ceil(std_dev / 0.2))
+
+        elif div < 0.25:
+            #ticks < 0.2 apart -> become 0.2 intervals
+            vals = self.generate_ticks_on_range(min_point, 0.25, math.ceil(std_dev / 0.25))
+
+        elif div < 0.5:
+            #ticks < 0.5 apart -> become 0.5 intervals
+            vals = self.generate_ticks_on_range(min_point, 0.5, math.ceil(std_dev / 0.5))
+
+        elif div < 1:
+            #ticks < 1 apart -> become 1 intervals
+            vals = self.generate_ticks_on_range(min_point, 1, math.ceil(std_dev / 1))
+
+        elif div < 2:
+            #ticks < 2 apart -> become 2 intervals
+            vals = self.generate_ticks_on_range(min_point, 2, math.ceil(std_dev / 2))
+
+        elif div < 5:
+            #ticks < 5 apart -> bcome 5 intervals
+            vals = self.generate_ticks_on_range(min_point, 5, math.ceil(std_dev / 5))
+
+        elif div < 10:
+            #ticks < 10 apart -> bcome 10 intervals
+            vals = self.generate_ticks_on_range(min_point, 10, math.ceil(std_dev / 10))
+
+        return self.format_ticks(map(lambda a: (a, str(a) + '°'), vals))
+
+    def generate_ticks_on_range(self, low, difference, sig_ticks):
+        floor = low - (low % difference) - difference
+        vals = [floor]
+        for i in range(1, sig_ticks + 1):
+            vals.append(floor + (difference * i))
+
+        return vals
+
+    def format_ticks(self, vf_pairs):
+        ticks = []
+
+        for pair in vf_pairs:
+            ticks.append({'v': pair[0], 'f': pair[1]})
+
+        return ticks
+
+
+    def extract_data_window(self, window):
         # fun math
         data_interval = self.poll_interval
-        total_data_points = window_seconds / data_interval
+        total_data_points = window / data_interval
 
         # 360 data points
         if len(self.full_report) > total_data_points:
@@ -102,22 +191,31 @@ class PlotDataWindow():
 
             counter += 1
 
+        return plot_list
+
+    def write_window_data(self, filename, points, hticks, vticks):
+
+
         data = {
             'hticks':hticks,
-            'dataset':plot_list
+            'vticks':vticks,
+            'dataset':points
         }
 
         with open(self.plot_dir + filename, 'w') as json_file:
             json.dump(data, json_file, indent=4)
-        logging.info('Wrote %d points to file: %s' % (counter / point_gap, filename))
+        logging.info('Wrote %d points to file: %s' % (len(points), filename))
 
-    def write_current_temps(self, timestamp, s_temp, w_temp):
+    def write_current_temps(self, timestamp, s_temp, weather):
+        w_temp = weather.temp_f
+        w_location = weather.city
         data = {
             'timestamp':timestamp,
             'sensor': {'temp_f': s_temp},
-            'weather': {'temp_f': w_temp}
+            'weather': {'temp_f': w_temp, 'location': w_location}
         }
         with open(self.plot_dir + self.current + '.json', 'w') as json_file:
             json.dump(data, json_file, indent=4)
 
-
+    def write_daily_averages(self):
+        pass

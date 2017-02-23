@@ -31,14 +31,16 @@
 
             </table>
 
-            <p style="color:#777;">Measured at <%= current_time %></p>
+            <p style="color:#777;">Measured at <%= current_time %>, in <%= weather_local%></p>
 
         </div>
 
-        <ul class="nav nav-pills">
-            <li class="active"><a href="#">12-hour</a></li>
-            <li><a href="#">24-hour</a></li>
-            <li><a href="#">weekly</a></li>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#" data-toggle="tab">12-hour</a></li>
+            <li><a href="#" data-toggle="tab">24-hour</a></li>
+            <li><a href="#" data-toggle="tab">2-day</a></li>
+            <li><a href="#" data-toggle="tab">5-day</a></li>
+            <li><a href="#" data-toggle="tab">10-day</a></li>
         </ul>
 
         <div class="panel panel-default">

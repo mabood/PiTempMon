@@ -21,11 +21,13 @@ app.get('/', function(req, res) {
     var plot_12hr = plot.current12hrPlot();
     var plot_24hr = plot.current24hrPlot();
     var current_date = plot.currentDate();
+    var weather_location = plot.weatherLocation();
     res.render('pages/index', {
         current_sensor: current_sensor,
         current_weather: current_weather,
         current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
-        current_time: dateFormat(current_date, "h:MM:ss TT")
+        current_time: dateFormat(current_date, "h:MM:ss TT"),
+        weather_local: weather_location
     });
 });
 

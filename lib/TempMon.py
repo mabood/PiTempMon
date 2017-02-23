@@ -21,9 +21,8 @@ def poll_and_write(sensor, weather, report_file, plot=None):
     if plot:
         logging.info('Generating data plots...')
         plot.read_latest_report()
-        plot.generate_12hr_dataset()
-        plot.generate_24hr_dataset()
-        plot.write_current_temps(timestamp, temp_f, weather.temp_f)
+        plot.write_all_datasets()
+        plot.write_current_temps(timestamp, temp_f, weather)
 
 def main():
     # setup
