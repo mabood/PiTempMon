@@ -92,8 +92,8 @@ class PlotDataWindow():
         if len(points) < 1:
             return None
 
-        floor_time = datetime.datetime.strptime(points[0][0], '%H:%M:%S')
-        ceil_time = datetime.datetime.strptime(points[len(points) - 1][0], '%H:%M:%S')
+        #floor_time = datetime.datetime.strptime(points[0][0], '%H:%M:%S')
+        #ceil_time = datetime.datetime.strptime(points[len(points) - 1][0], '%H:%M:%S')
 
 
 
