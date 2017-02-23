@@ -49,25 +49,30 @@ app.get('/lineplot', function(req, res) {
     });
 });
 
-app.get('/12hr-data', function(req, res){
-    var plot_12hr = plot.current12hrPlot();
+app.get('/plot-data', function(req, res){
 
-    // input value from search
-    var val = req.query.search;
+    var window = req.window;
+    switch (window) {
+        case "12hr":
+            res.send(plot.current12hrPlot());
+            break;
+        case "24hr":
+            res.send(plot.current24hrPlot());
+            break;
+        case "2d":
+            res.send(plot.current2dPlot());
+            break;
+        case "5d":
+            res.send(plot.current5dPlot());
+            break;
+        case "10d":
+            res.send(plot.current10dPlot());
+            break;
 
-    res.send(plot_12hr);
+    }
 
 });
 
-app.get('/24hr-data', function(req, res){
-    var plot_24hr = plot.current24hrPlot();
-
-    // input value from search
-    var val = req.query.search;
-
-    res.send(plot_24hr);
-
-});
 
 app.listen(8080);
 console.log('8080 is the magic port');

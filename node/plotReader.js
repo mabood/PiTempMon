@@ -37,8 +37,23 @@ function read24hrPlot () {
     return readJSON(__dirname + '/public/datasets/24hr.json');
 }
 
+function read2dPlot () {
+    return readJSON(__dirname + '/public/datasets/2d.json');
+}
+
+function read5dPlot () {
+    return readJSON(__dirname + '/public/datasets/5d.json');
+}
+
+function read10dPlot () {
+    return readJSON(__dirname + '/public/datasets/10d.json');
+}
+
 module.exports.current12hrPlot = read12hrPlot;
 module.exports.current24hrPlot = read24hrPlot;
+module.exports.current2dPlot = read2dPlot;
+module.exports.current5dPlot = read5dPlot;
+module.exports.current10dPlot = read10dPlot;
 module.exports.currentSensorTemp = readCurrentSensorTemp;
 module.exports.currentWeatherTemp = readCurrentWeatherTemp;
 module.exports.currentDate = readCurrentTimestamp;

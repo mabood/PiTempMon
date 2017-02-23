@@ -8,7 +8,11 @@
     function drawChart() {
 
     var plot_data = $.ajax({
-        url: "/12hr-data",
+        type: "GET",
+        url: "/plot-data",
+        data: JSON.stringify({
+           "window": "12hr"
+        }),
         async: false
         }).responseText;
 
