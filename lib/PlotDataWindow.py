@@ -49,7 +49,7 @@ class PlotDataWindow():
         for i in range(1, 12):
             tick = last_hour - (i)
             hticks.append(tick)
-        hticks.sort(reverse=True)
+        hticks = hticks[::-1]
 
         for i, tick in enumerate(hticks):
             if tick < 0:
@@ -66,7 +66,7 @@ class PlotDataWindow():
         for i in range(1, 12):
             tick = last_hour - (i * 2)
             hticks.append(tick)
-        hticks.sort(reverse=True)
+        hticks = hticks[::-1]
 
         for i, tick in enumerate(hticks):
             if tick < 0:
