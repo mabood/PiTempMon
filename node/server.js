@@ -19,11 +19,11 @@ app.get('/', function(req, res) {
     var current_weather = plot.currentWeatherTemp() + '°';
     var plot_12hr = plot.current12hrPlot();
     var plot_24hr = plot.current24hrPlot();
+    var current_date = plot.currentDate();
     res.render('pages/index', {
         current_sensor: current_sensor,
         current_weather: current_weather,
-        plot_12hr: plot_12hr,
-        plot_24hr: plot_24hr
+        current_date: current_date.toString()
     });
 });
 
@@ -41,7 +41,7 @@ app.get('/lineplot', function(req, res) {
 });
 
 app.get('/12hr-data', function(req, res){
-    var plot_12hr = plot.current12hrPlot;
+    var plot_12hr = plot.current12hrPlot();
 
     // input value from search
     var val = req.query.search;
@@ -52,7 +52,7 @@ app.get('/12hr-data', function(req, res){
 });
 
 app.get('/24hr-data', function(req, res){
-    var plot_24hr = plot.current24hrPlot;
+    var plot_24hr = plot.current24hrPlot();
 
     // input value from search
     var val = req.query.search;

@@ -10,6 +10,10 @@ function readJSON(filename){
     return JSON.parse(contents);
 }
 
+function readCurrentTimestamp(){
+    return new Date(readJSON(__dirname + '/public/datasets/current.json')['timestamp']);
+}
+
 function readCurrentSensorTemp(){
     return readJSON(__dirname + '/public/datasets/current.json')['sensor']['temp_f'].toFixed(1);
 }
@@ -30,4 +34,5 @@ module.exports.current12hrPlot = read12hrPlot;
 module.exports.current24hrPlot = read24hrPlot;
 module.exports.currentSensorTemp = readCurrentSensorTemp;
 module.exports.currentWeatherTemp = readCurrentWeatherTemp;
+module.exports.currentDate = readCurrentTimestamp;
 
