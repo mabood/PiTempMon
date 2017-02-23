@@ -24,7 +24,8 @@ app.get('/', function(req, res) {
     res.render('pages/index', {
         current_sensor: current_sensor,
         current_weather: current_weather,
-        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy, h:MM:ss TT")
+        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy."),
+        current_time: dateFormat(current_date, "h:MM:ss TT")
     });
 });
 
