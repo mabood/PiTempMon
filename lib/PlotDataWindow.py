@@ -116,35 +116,35 @@ class PlotDataWindow():
         div = std_dev / 10.0
         if div < 0.1:
             # ticks < 0.1 apart -> become 0.1 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.1, math.ceil(std_dev / 0.1))
+            vals = self.generate_ticks_on_range(min_point, 0.1, int(math.ceil(std_dev / 0.1)))
 
         elif div < 0.2:
             #ticks < 0.2 apart -> become 0.2 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.2, math.ceil(std_dev / 0.2))
+            vals = self.generate_ticks_on_range(min_point, 0.2, int(math.ceil(std_dev / 0.2)))
 
         elif div < 0.25:
             #ticks < 0.2 apart -> become 0.2 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.25, math.ceil(std_dev / 0.25))
+            vals = self.generate_ticks_on_range(min_point, 0.25, int(math.ceil(std_dev / 0.25)))
 
         elif div < 0.5:
             #ticks < 0.5 apart -> become 0.5 intervals
-            vals = self.generate_ticks_on_range(min_point, 0.5, math.ceil(std_dev / 0.5))
+            vals = self.generate_ticks_on_range(min_point, 0.5, int(math.ceil(std_dev / 0.5)))
 
         elif div < 1:
             #ticks < 1 apart -> become 1 intervals
-            vals = self.generate_ticks_on_range(min_point, 1, math.ceil(std_dev / 1))
+            vals = self.generate_ticks_on_range(min_point, 1, int(math.ceil(std_dev / 1)))
 
         elif div < 2:
             #ticks < 2 apart -> become 2 intervals
-            vals = self.generate_ticks_on_range(min_point, 2, math.ceil(std_dev / 2))
+            vals = self.generate_ticks_on_range(min_point, 2, int(math.ceil(std_dev / 2)))
 
         elif div < 5:
             #ticks < 5 apart -> bcome 5 intervals
-            vals = self.generate_ticks_on_range(min_point, 5, math.ceil(std_dev / 5))
+            vals = self.generate_ticks_on_range(min_point, 5, int(math.ceil(std_dev / 5)))
 
         elif div < 10:
             #ticks < 10 apart -> bcome 10 intervals
-            vals = self.generate_ticks_on_range(min_point, 10, math.ceil(std_dev / 10))
+            vals = self.generate_ticks_on_range(min_point, 10, int(math.ceil(std_dev / 10)))
 
         return self.format_ticks(map(lambda a: (a, str(a) + '°'), vals))
 

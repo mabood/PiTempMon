@@ -42,7 +42,7 @@
         hAxis: {
             textStyle: { color: '#888'},
             gridlines: {color: '#000', count:0},
-            ticks: [new Date('00:21:22'), new Date('02:57:22')]
+            ticks: plot_data.hticks
         },
 
         vAxes: [
@@ -53,7 +53,7 @@
                 },
                 textStyle: {color: '#888'},
                 gridlines: {color: '#333'},
-                ticks: [{v:30, f:'30°'}, {v:40, f:'40°'}, {v:50, f:'50°'}, {v:60, f:'60°'}, {v:70, f:'70°'}, {v:80, f:'80°'}, {v:90, f:'90°'}, {v:100, f:'100°'}]
+                ticks: plot_data.vticks
             }
         ]
     };
