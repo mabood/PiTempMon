@@ -3,13 +3,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <% include ../partials/head %>
+    <% include ../partials/head.ejs %>
 </head>
 <body class="container">
 
     <header>
-        <% include ../partials/header %>
+        <% include ../partials/topnav.ejs %>
     </header>
+
+    <script>
+        $("#nav-page-1").addClass("active");
+    </script>
 
     <main>
         <div class="row">
@@ -32,7 +36,7 @@
     </main>
 
     <footer>
-        <% include ../partials/footer %>
+        <% include ../partials/footer.ejs %>
     </footer>
 
 </body>

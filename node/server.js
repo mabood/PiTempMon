@@ -18,8 +18,6 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
     var current_sensor = plot.currentSensorTemp() + '°';
     var current_weather = plot.currentWeatherTemp() + '°';
-    var plot_12hr = plot.current12hrPlot();
-    var plot_24hr = plot.current24hrPlot();
     var current_date = plot.currentDate();
     var weather_location = plot.weatherLocation();
     res.render('pages/index', {
@@ -32,15 +30,6 @@ app.get('/', function(req, res) {
 });
 
 // about page
-app.get('/about', function(req, res) {
-    var current_date = plot.currentDate();
-    res.render('pages/about', {
-        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
-        current_time: dateFormat(current_date, "h:MM TT")
-    });
-});
-
-// about page
 app.get('/lineplot', function(req, res) {
     var current_date = plot.currentDate();
     res.render('pages/lineplot', {
@@ -49,9 +38,57 @@ app.get('/lineplot', function(req, res) {
     });
 });
 
-app.get('/plot-data/12hr', function(req, res){
-    res.send(plot.current12hrPlot());
+app.get('/current-data', function(req, res){
+   var id = req.query.id;
+   var data = "";
+
+   console.log('request: ' + req.originalUrl);
+
+   switch (id) {
+       case 'time':
+           data = dateFormat(plot.currentDate(), "h:MM TT");
+           break;
+       case 'date':
+           data = dateFormat(plot.currentDate(), "dddd, mmmm dS, yyyy");
+           break;
+       case 'w_tempf':
+           data = plot.currentWeatherTemp() + '°';
+           break;
+       case 's_tempf':
+           data = plot.currentSensorTemp() + '°';
+           break;
+       case 'w_location':
+           data = plot.weatherLocation();
+   }
+   res.send(data);
 });
+
+app.get('/plot-data', function(req, res){
+    var window = req.query.window;
+
+    console.log('request: ' + req.originalUrl);
+
+    var plot_data = {};
+    switch(window) {
+        case '12hr':
+            plot_data = plot.current12hrPlot();
+            break;
+        case '24hr':
+            plot_data = plot.current24hrPlot();
+            break;
+        case '2d':
+            plot_data = plot.current2dPlot();
+            break;
+        case '5d':
+            plot_data = plot.current5dPlot();
+            break;
+        case '10d':
+            plot_data = plot.current10dPlot();
+            break;
+    }
+    res.send(plot_data);
+});
+
 
 
 app.listen(8080);

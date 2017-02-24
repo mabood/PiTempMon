@@ -1,0 +1,83 @@
+
+<ul class="nav nav-tabs">
+    <li id="plot-tab-0"><a data-toggle="tab" onclick="setWindow('12hr')">12-hour</a></li>
+    <li id="plot-tab-1"><a data-toggle="tab" onclick="setWindow('24hr')">24-hour</a></li>
+    <li id="plot-tab-2"><a data-toggle="tab" onclick="setWindow('2d')">2-day</a></li>
+    <li id="plot-tab-3"><a data-toggle="tab" onclick="setWindow('5d')">5-day</a></li>
+    <li id="plot-tab-4"><a data-toggle="tab" onclick="setWindow('10d')">10-day</a></li>
+</ul>
+
+<div class="panel panel-default">
+    <div class="tab-pane fade active in">
+        <div id="plot-title" class="panel-body">Temperature data from the last 12 hours</div>
+        <div id="curve_chart" style="width: auto; height: 600px"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function setPlotTitleText(title) {
+        $("#plot-title").text(title);
+    }
+
+    function removeActiveWindow() {
+        switch(window_param) {
+            case '12hr':
+                 $("#plot-tab-0").removeClass("active");
+                break;
+            case '24hr':
+                 $("#plot-tab-1").removeClass("active");
+                 break;
+            case '2d':
+                 $("#plot-tab-2").removeClass("active");
+                 break;
+            case '5d':
+                 $("#plot-tab-3").removeClass("active");
+                 break;
+            case '10d':
+                 $("#plot-tab-4").removeClass("active");
+                 break;
+        }
+    }
+
+    function setWindow(window) {
+        switch(window) {
+            case '12hr':
+                removeActiveWindow();
+                window_param = window;
+                $("#plot-tab-0").addClass("active");
+                setPlotTitleText("Temperature data from the last 12 hours")
+                break;
+            case '24hr':
+                removeActiveWindow();
+                window_param = window;
+                $("#plot-tab-1").addClass("active");
+                setPlotTitleText("Temperature data from the last 24 hours")
+                break;
+            case '2d':
+                removeActiveWindow();
+                window_param = window;
+                $("#plot-tab-2").addClass("active");
+                setPlotTitleText("Temperature data from the last 2 days")
+                break;
+            case '5d':
+                removeActiveWindow();
+                window_param = window;
+                $("#plot-tab-3").addClass("active");
+                setPlotTitleText("Temperature data from the last 5 days")
+                break;
+            case '10d':
+                removeActiveWindow();
+                window_param = window;
+                $("#plot-tab-4").addClass("active");
+                setPlotTitleText("Temperature data from the last 10 days")
+                break;
+            default:
+                return -1;
+                break;
+        }
+        drawChart();
+    }
+
+    setWindow(window_param);
+</script>

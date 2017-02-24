@@ -3,58 +3,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <% include ../partials/head %>
+    <% include ../partials/head.ejs %>
     <% include ../partials/gchart.ejs%>
+
+
 </head>
 <body class="container">
 
     <header>
-        <% include ../partials/header %>
+        <% include ../partials/topnav.ejs %>
     </header>
 
     <main>
         <div class="jumbotron" style="background-color: #333;">
 
-            <table style="border-spacing: 100px;">
-                <col width="400">
-                <col width="400">
+            <table style="margin-left: auto; margin-right: auto">
+                <col width="30%">
+                <col width="30%">
+                <col width="30%">
                 <tr>
                     <td>
-                        <h1 style="color:#00ff99;"><%= current_sensor %></h1>
-                        <h3>Room Temperature</h3>
+                        <h1 id="current-time" align="left">
+                            <%= current_time%>
+                        </h1>
+                        <h3 id="current-location-text" align="left" style="color:#bfbfbf;margin-left:10px">
+                            <%= weather_local%>
+                        </h3>
                     </td>
                     <td>
-                        <h1 style="color:#5f42f4;"><%= current_weather %></h1>
-                        <h3>Outside Temperature</h3>
+                        <h1 id="current-s-tempf" align="center" style="color:#00ff99">
+                            <%= current_sensor %>
+                        </h1>
+                        <h3 align="center">Room Temperature</h3>
+                    </td>
+                    <td>
+                        <h1 id="current-w-tempf" align="center" style="color:#ff0f0f">
+                            <%= current_weather %>
+                        </h1>
+                        <h3 align="center">Outside Temperature</h3>
                     </td>
                 </tr>
 
             </table>
 
-            <p style="color:#777;">Measured at <%= current_time %>, in <%= weather_local%></p>
-
         </div>
 
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#" data-toggle="tab">12-hour</a></li>
-            <li><a href="#" data-toggle="tab">24-hour</a></li>
-            <li><a href="#" data-toggle="tab">2-day</a></li>
-            <li><a href="#" data-toggle="tab">5-day</a></li>
-            <li><a href="#" data-toggle="tab">10-day</a></li>
-        </ul>
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-                Temperature data from the last 12 hours
-            </div>
-            <div class="panel-footer">
-                <div id="curve_chart" style="width: auto; height: 600px"></div>
-            </div>
-        </div>
+       <div><% include ../partials/tempchart.ejs %></div>
     </main>
 
     <footer>
-        <% include ../partials/footer %>
+        <script>
+            $("#nav-page-0").addClass("active");
+        </script>
+
+        <% include ../partials/footer.ejs %>
     </footer>
 
 </body>

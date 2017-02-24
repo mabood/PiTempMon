@@ -1,36 +1,25 @@
 <html>
   <head>
-    <% include ../partials/head %>
+    <% include ../partials/head.ejs %>
     <% include ../partials/gchart.ejs%>
 
   </head>
   <body class="container">
 
     <header>
-        <% include ../partials/header %>
+        <% include ../partials/topnav.ejs %>
     </header>
 
-    <main>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#" data-toggle="tab">12-hour</a></li>
-            <li><a href="#" data-toggle="tab">24-hour</a></li>
-            <li><a href="#" data-toggle="tab">2-day</a></li>
-            <li><a href="#" data-toggle="tab">5-day</a></li>
-            <li><a href="#" data-toggle="tab">10-day</a></li>
-        </ul>
+    <script>
+        $("#nav-page-1").addClass("active");
+    </script>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                Temperature data from the last 12 hours
-            </div>
-            <div class="panel-footer">
-                <div id="curve_chart" style="width: auto; height: 600px"></div>
-            </div>
-        </div>
+    <main>
+        <div><% include ../partials/tempchart.ejs %></div>
     </main>
 
     <footer>
-        <% include ../partials/footer %>
+        <% include ../partials/footer.ejs %>
     </footer>
   </body>
 </html>

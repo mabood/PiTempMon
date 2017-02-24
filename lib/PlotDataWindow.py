@@ -149,9 +149,9 @@ class PlotDataWindow():
         return self.format_ticks(map(lambda a: (a, str(a)), vals))
 
     def generate_ticks_on_range(self, low, high, difference):
-        floor = low - (low % difference) - difference
+        floor = low - (low % difference)
         ceiling = high - (high % difference) + difference
-        num_ticks = (ceiling - floor) / difference + 2
+        num_ticks = (ceiling - floor) / difference + 1
 
         vals = [floor]
         for i in range(1, num_ticks):
@@ -184,7 +184,7 @@ class PlotDataWindow():
             point_gap = 1
 
         plot_list = []
-        counter = 1
+        counter = len(sig_points) % point_gap
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')

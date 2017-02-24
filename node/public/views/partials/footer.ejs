@@ -1,3 +1,33 @@
 <!-- views/partials/footer.ejs -->
 
-<p class="text-center text-muted" style="position: fixed;bottom: 0;width: 100%;">© Copyright 2017 Mike Abood</p>
+<p class="text-center text-muted" style="position: fixed;bottom: 0;">© Copyright 2017 Mike Abood</p>
+
+<script type="text/javascript">
+
+    function fetchCurrentStat(statId) {
+        return $.ajax({
+            type: "GET",
+            url: "/current-data?id=" + statId,
+            async: false
+        }).responseText;
+    }
+
+    function updatePageCurrentStats() {
+
+        var s_tempf = fetchCurrentStat('s_tempf');
+        var w_tempf = fetchCurrentStat('w_tempf');
+        var date = fetchCurrentStat('date');
+        var time = fetchCurrentStat('time');
+        var w_location = fetchCurrentStat('w_location');
+
+        $("#current-s-tempf").text(s_tempf);
+        $("#current-w-tempf").text(w_tempf);
+        $("#current-date").text(date);
+        $("#current-time").text(time);
+        $("#current-location-text").text(w_location);
+
+        drawChart();
+    }
+
+    setInterval(updatePageCurrentStats, 60*1000);
+</script>

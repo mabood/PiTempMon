@@ -1,4 +1,4 @@
-<!-- views/partials/header.ejs -->
+<!-- views/partials/topnav.ejs -->
 
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
@@ -9,19 +9,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">PiTempMon</a>
+            <a class="navbar-brand" href="/">ThermoTrack</a>
         </div>
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/lineplot">Plot</a></li>
+                <li id="nav-page-0"><a href="/">Home</a></li>
+                <li id="nav-page-1"><a href="/lineplot">Plot</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><%= current_date %></a></li>
+                <li><a id="current-date"><%= current_date %></a></li>
             </ul>
         </div>
     </div>
