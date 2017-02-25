@@ -13,10 +13,10 @@ def poll_and_write(sensor, weather, reporter):
     weather_temp_f = weather.temp_f
 
     logging.info('Measured at: %s' % timestamp)
-    logging.info('Sensor read: %fF' % str(sensor_temp_f))
+    logging.info('Sensor read: %fF' % sensor_temp_f)
 
     logging.info('Acquiring weather stats...')
-    logging.info('Current temperature in %s: %sF' % (weather.city, str(weather_temp_f)))
+    logging.info('Current temperature in %s: %fF' % (weather.city, weather_temp_f))
 
     logging.info('Updating temps log file: %s...' % reporter.report_file)
     reporter.update_temps_log(timestamp, sensor_temp_f, weather_temp_f)
