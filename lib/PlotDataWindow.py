@@ -188,8 +188,7 @@ class PlotDataWindow():
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
-                tm = cols[0].split('T')[1]
-                tm = tm[:-3]
+                tm = cols[0]
                 plot_list.append([tm, cols[1], cols[2]])
 
             counter += 1
