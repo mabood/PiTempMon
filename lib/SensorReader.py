@@ -36,6 +36,6 @@ class SensorReader():
         return (temp_c * 1.8) + 32
 
     def poll_sensor_and_update(self):
-        self.latest_temp_c = self.measure_temp_c()
+        self.latest_measurement_time, self.latest_temp_c = self.measure_temp_c()
         self.latest_temp_f = self.convert_c_to_f(self.latest_temp_c)
 
