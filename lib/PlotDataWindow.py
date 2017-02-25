@@ -174,7 +174,7 @@ class PlotDataWindow():
         possible_data_points = window / data_interval
 
         if len(self.full_report) > possible_data_points:
-            sig_points = self.full_report[len(self.full_report) - possible_data_points:]
+            sig_points = self.full_report[len(self.full_report) - 1 - possible_data_points:]
         else:
             sig_points = self.full_report
 
@@ -183,7 +183,7 @@ class PlotDataWindow():
             point_gap = 1
 
         plot_list = []
-        counter = (len(sig_points) - 1) % point_gap
+        counter = point_gap - (len(sig_points) - 1) % point_gap
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
