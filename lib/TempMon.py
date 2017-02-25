@@ -1,28 +1,28 @@
 
 from utils import *
-from PlotDataWindow import PlotDataWindow
+from StatReporter import StatReporter
 import SensorReader
 import IntervalTimer
 import WeatherStats
 
-def poll_and_write(sensor, weather, report_file, plot=None):
+def poll_and_write(sensor, weather, reporter):
     logging.info('Polling sensor...')
-    (timestamp, temp_c) = sensor.measure_temp()
+    sensor.poll_sensor_and_update()
+    timestamp = sensor.latest_measurement_time
+    sensor_temp_f = sensor.latest_temp_f
+    weather_temp_f = weather.temp_f
 
-    temp_f = sensor.convert_c_to_f(temp_c)
-    logging.info('Sensor read: %fF' % temp_f)
+    logging.info('Measured at: %s' % timestamp)
+    logging.info('Sensor read: %fF' % str(sensor_temp_f))
 
-    logging.info('Requesting weather stats...')
-    logging.info('Current temperature in %s: %sF' % (weather.city, str(weather.temp_f)))
+    logging.info('Acquiring weather stats...')
+    logging.info('Current temperature in %s: %sF' % (weather.city, str(weather_temp_f)))
 
-    logging.info('Writing report to file: %s...' % report_file)
-    sensor.report_to_file(timestamp, temp_f, report_file, weather.temp_f)
+    logging.info('Updating temps log file: %s...' % reporter.report_file)
+    reporter.update_temps_log(timestamp, sensor_temp_f, weather_temp_f)
 
-    if plot:
-        logging.info('Generating data plots...')
-        plot.read_latest_report()
-        plot.write_all_datasets()
-        plot.write_current_temps(timestamp, temp_f, weather)
+    logging.info('Updating data plots...')
+    reporter.update_plot_data()
 
 def main():
     # setup
@@ -50,17 +50,16 @@ def main():
     report_file += generate_filetime() + '-'
     report_file += get_property('REPORT_FILE', 'CONFIG')
 
+    # initialize StatReporter
+    reporter = StatReporter(weather, sensor, report_file)
+
     # establish polling interval
     interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
 
-    poll_and_write(sensor, weather, report_file)
-
-    # initialize WindowPlotter
-    plot = PlotDataWindow()
+    poll_and_write(sensor, weather, reporter)
 
     # Schedule interval job
-    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, report_file, plot)
-
+    it = IntervalTimer.IntervalTimer(float(interval), poll_and_write, sensor, weather, reporter)
 
 if __name__ == '__main__':
     main()
