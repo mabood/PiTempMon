@@ -183,7 +183,7 @@ class PlotDataWindow():
             point_gap = 1
 
         plot_list = []
-        counter = point_gap
+        counter = (len(sig_points) - 1) % point_gap
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
