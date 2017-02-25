@@ -171,20 +171,19 @@ class PlotDataWindow():
     def extract_data_window(self, window):
         # fun math
         data_interval = self.poll_interval
-        total_data_points = window / data_interval
+        possible_data_points = window / data_interval
 
-        # 120 data points
-        if len(self.full_report) > total_data_points:
-            sig_points = self.full_report[len(self.full_report) - total_data_points:]
+        if len(self.full_report) > possible_data_points:
+            sig_points = self.full_report[len(self.full_report) - possible_data_points:]
         else:
             sig_points = self.full_report
 
-        point_gap = int(total_data_points / self.num_data_points)
+        point_gap = int(possible_data_points / self.num_data_points)
         if point_gap < 1:
             point_gap = 1
 
         plot_list = []
-        counter = len(sig_points) % point_gap
+        counter = point_gap
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
