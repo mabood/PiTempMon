@@ -173,13 +173,13 @@ class PlotDataWindow():
         data_interval = self.poll_interval
         total_data_points = window / data_interval
 
-        # 360 data points
+        # 120 data points
         if len(self.full_report) > total_data_points:
             sig_points = self.full_report[len(self.full_report) - total_data_points:]
         else:
             sig_points = self.full_report
 
-        point_gap = int(total_data_points / 360)
+        point_gap = int(total_data_points / self.num_data_points)
         if point_gap < 1:
             point_gap = 1
 
