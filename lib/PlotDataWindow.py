@@ -151,7 +151,7 @@ class PlotDataWindow():
     def generate_ticks_on_range(self, low, high, difference):
         floor = low - (low % difference)
         ceiling = high - (high % difference) + difference
-        num_ticks = (ceiling - floor) / difference + 1
+        num_ticks = int((ceiling - floor) / difference + 1)
 
         vals = [floor]
         for i in range(1, num_ticks):
