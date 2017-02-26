@@ -21,10 +21,12 @@
 
         data = JSON.parse(data);
 
+        var utc_offset = String(new Date().getTimezoneOffset() / 60)
+
         var plot_array = [['Time', 'Room Temperature', 'Local Temperature']];
         for (var i = 0; i < data.dataset.length; i++) {
             plot_array.push([
-                new Date(Date.UTC(data.dataset[i][0])),
+                new Date(data.dataset[i][0] + utc_offset),
                 parseFloat(data.dataset[i][1]),
                 parseFloat(data.dataset[i][2])
             ]);
@@ -32,7 +34,7 @@
 
         var hticks = []
         for (var j = 0; j < data.hticks.length; j++) {
-            hticks.push(new Date(Date.UTC(data.hticks[i])));
+            hticks.push(new Date(data.hticks[i] + utc_offset));
         }
 
         var chart_data = google.visualization.arrayToDataTable(plot_array);
