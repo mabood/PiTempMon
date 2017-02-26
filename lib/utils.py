@@ -18,6 +18,24 @@ def get_property(keyname, section):
         logging.error("Option %s not found in configuration file: %s Quitting..." % (keyname, CONFIG_FILENAME))
         report_failed_and_exit("Requested Config not found in file: " + CONFIG_FILENAME)
 
+#check if reporting directory exists
+def device_exists():
+    return os.path.exists(get_property('DEVICES_DIR', 'SENSOR') + get_property('DEVICE_NAME', 'SENSOR'))
+
+def report_dir_exists():
+    return os.path.exists(get_property('REPORT_DIR', 'CONFIG'))
+
+def log_dir_exists():
+    return os.path.exists(get_property('LOG_DIR', 'LOGS'))
+
+def create_log_dir():
+    if not log_dir_exists():
+        try:
+            os.makedirs(get_property('LOG_DIR', 'LOGS'))
+        except OSError:
+            logging.error('Unable to create log directory. Check location of LOG_DIR')
+            report_failed_and_exit('Unable to create log directory')
+
 # Sets up logger with the configured log file
 def setup_logger(logfile=None, verbose=None, console=None):
     if logfile is None:
@@ -46,25 +64,6 @@ def setup_logger(logfile=None, verbose=None, console=None):
         console.setFormatter(formatter)
         console.setLevel(log_level)
         logging.getLogger('').addHandler(console)
-
-#check if reporting directory exists
-def device_exists():
-    return os.path.exists(get_property('DEVICES_DIR', 'SENSOR') + get_property('DEVICE_NAME', 'SENSOR'))
-
-def report_dir_exists():
-    return os.path.exists(get_property('REPORT_DIR', 'CONFIG'))
-
-def log_dir_exists():
-    return os.path.exists(get_property('LOG_DIR', 'LOGS'))
-
-def create_log_dir():
-    if not log_dir_exists():
-        try:
-            os.makedirs(get_property('LOG_DIR', 'LOGS'))
-        except OSError:
-            logging.error('Unable to create log directory. Check location of LOG_DIR')
-            report_failed_and_exit('Unable to create log directory')
-
 
 #checks for required files and fails out if not found
 def check_files():
