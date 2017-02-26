@@ -15,6 +15,7 @@ To run TempMon.py use the startup script
 To stop TempMon.py use the stop script
 ```
 /bin/stop_temp_mon.sh
+```
 
 To start the node server navigate to /node and run
 ```
@@ -23,4 +24,4 @@ node server.js
 Or, to start the server forever run
 ```
 forever start server.js
-
+```
