@@ -207,7 +207,7 @@ class PlotDataWindow():
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
-                tm = self.convert_utc(cols[0])
+                tm = cols[0]
                 plot_list.append([tm, cols[1], cols[2]])
 
             counter += 1
@@ -215,11 +215,16 @@ class PlotDataWindow():
         return plot_list
 
     def write_window_data(self, filename, points, hticks, vticks):
+        # first convert times to UTC
+        utc_points = []
+        for point in points:
+            point[0] = self.convert_utc(point[0])
+            utc_points.append=(point)
 
         data = {
             'hticks':hticks,
             'vticks':vticks,
-            'dataset':points
+            'dataset':utc_points
         }
 
         with open(self.plot_dir + filename, 'w') as json_file:
