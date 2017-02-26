@@ -32,38 +32,28 @@ function readWeatherLocation(){
     return readJSON(__dirname + '/public/datasets/current.json')['weather']['location'];
 }
 
-function convert_time_points_utc(json_data) {
-    var data = json_data['dataset'];
-    var converted_data = [];
-    for (var i = 0; i < data.length; i++) {
-        var utc_time = convert_time_utc(data[i][0]);
-        converted_data[i] = [utc_time, data[i][1], data[i][2]];
-    }
-    return converted_data;
-}
-
 function readAverages(){
     return readJSON(__dirname + '/public/datasets/avgs.json');
 }
 
 function read12hrPlot () {
-    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/12hr.json'));
+    return readJSON(__dirname + '/public/datasets/12hr.json');
 }
 
 function read24hrPlot () {
-    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/24hr.json'));
+    return readJSON(__dirname + '/public/datasets/24hr.json');
 }
 
 function read2dPlot () {
-    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/2d.json'));
+    return readJSON(__dirname + '/public/datasets/2d.json');
 }
 
 function read5dPlot () {
-    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/5d.json'));
+    return readJSON(__dirname + '/public/datasets/5d.json');
 }
 
 function read10dPlot () {
-    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/10d.json'));
+    return readJSON(__dirname + '/public/datasets/10d.json');
 }
 
 module.exports.current12hrPlot = read12hrPlot;
