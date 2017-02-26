@@ -47,28 +47,23 @@ function readAverages(){
 }
 
 function read12hrPlot () {
-    var data = readJSON(__dirname + '/public/datasets/12hr.json');
-    return convert_time_points_utc(data);
+    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/12hr.json'));
 }
 
 function read24hrPlot () {
-    var data = readJSON(__dirname + '/public/datasets/24hr.json');
-    return convert_time_points_utc(data);
+    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/24hr.json'));
 }
 
 function read2dPlot () {
-    var data = readJSON(__dirname + '/public/datasets/2d.json');
-    return convert_time_points_utc(data);
+    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/2d.json'));
 }
 
 function read5dPlot () {
-    var data = readJSON(__dirname + '/public/datasets/5d.json');
-    return convert_time_points_utc(data);
+    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/5d.json'));
 }
 
 function read10dPlot () {
-    var data = readJSON(__dirname + '/public/datasets/10d.json');
-    return convert_time_points_utc(data);
+    return convert_time_points_utc(readJSON(__dirname + '/public/datasets/10d.json'));
 }
 
 module.exports.current12hrPlot = read12hrPlot;
