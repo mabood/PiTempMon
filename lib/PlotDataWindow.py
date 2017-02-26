@@ -31,6 +31,11 @@ class PlotDataWindow():
         self.max_vticks = 12
         self.day_seconds = 86400
 
+    def convert_utc(self, timestamp):
+        localtime = datetime.datetime.strptime(timestamp, self.timestamp_format)
+        utc_time = localtime + datetime.timedelta(seconds=time.timezone)
+        return utc_time.strftime(self.timestamp_format)
+
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
         tail = '-' + self.report_suffix
@@ -106,8 +111,8 @@ class PlotDataWindow():
         while int((hours / tick_gap)) > self.max_hticks:
             tick_gap += 1
 
-        hticks = [floor_time.strftime(self.timestamp_format)]
-        for i in range(1, int(hours / tick_gap) - 1):
+        hticks = []
+        for i in range(1, int(hours / tick_gap)):
             tick = floor_time + datetime.timedelta(seconds=(3600 * tick_gap * i))
             hticks.append(tick.strftime(self.timestamp_format))
 
@@ -203,7 +208,7 @@ class PlotDataWindow():
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
-                tm = cols[0]
+                tm = self.convert_utc(cols[0])
                 plot_list.append([tm, cols[1], cols[2]])
 
             counter += 1
@@ -225,7 +230,7 @@ class PlotDataWindow():
         w_temp = weather.temp_f
         w_location = weather.city
         data = {
-            'timestamp': timestamp,
+            'timestamp': self.convert_utc(timestamp),
             'sensor': {'temp_f': s_temp},
             'weather': {'temp_f': w_temp, 'location': w_location}
         }
@@ -256,8 +261,8 @@ class PlotDataWindow():
                 w_temps.append(float(point['w_temp']))
 
             avgs[day] = {
-                'time_start': min(times).strftime(self.timestamp_format),
-                'time_end': max(times).strftime(self.timestamp_format),
+                'time_start': self.convert_utc(min(times).strftime(self.timestamp_format)),
+                'time_end': self.convert_utc(max(times).strftime(self.timestamp_format)),
                 's_avg': sum(s_temps) / len(s_temps),
                 'w_avg': sum(w_temps) / len(w_temps)
             }

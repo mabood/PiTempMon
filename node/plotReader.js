@@ -11,13 +11,9 @@ function readJSON(filename){
     return JSON.parse(contents);
 }
 
-function convert_time_utc(timestamp) {
-    return moment.tz(timestamp, moment.tz.guess()).format();
-}
-
 function readCurrentTimestamp(){
     var text_date = readJSON(__dirname + '/public/datasets/current.json')['timestamp'];
-    return new Date(convert_time_utc(text_date));
+    return new Date(text_date);
 }
 
 function readCurrentSensorTemp(){
