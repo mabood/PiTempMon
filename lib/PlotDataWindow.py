@@ -112,11 +112,11 @@ class PlotDataWindow():
             tick_gap += 1
 
         hticks = []
-        for i in range(1, int(hours / tick_gap)):
-            tick = floor_time + datetime.timedelta(seconds=(3600 * tick_gap * i))
+        for i in range(0, int(hours / tick_gap) + 1):
+            tick = ceil_time - datetime.timedelta(seconds=(3600 * tick_gap * i))
             hticks.append(tick.strftime(self.timestamp_format))
 
-        return hticks
+        return hticks[::-1]
 
     def generate_vticks(self, points):
 
