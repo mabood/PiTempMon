@@ -216,10 +216,9 @@ class PlotDataWindow():
 
     def write_window_data(self, filename, points, hticks, vticks):
         # first convert times to UTC
-        utc_points = []
+        utc_points = list()
         for point in points:
-            point[0] = self.convert_utc(point[0])
-            utc_points.append(point)
+            utc_points.append([self.convert_utc(point[0]), point[1], point[2]])
 
         data = {
             'hticks':hticks,
