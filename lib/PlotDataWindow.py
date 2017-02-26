@@ -252,8 +252,8 @@ class PlotDataWindow():
 
             for point in days[day]:
                 times.append(datetime.datetime.strptime(point['timestamp'], self.timestamp_format))
-                s_temps.append(point['s_temp'])
-                w_temps.append(point['w_temp'])
+                s_temps.append(float(point['s_temp']))
+                w_temps.append(float(point['w_temp']))
 
             avgs[day] = {
                 'time_start': min(times).strftime(self.timestamp_format),
