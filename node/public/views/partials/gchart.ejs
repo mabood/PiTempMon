@@ -24,7 +24,7 @@
         var plot_array = [['Time', 'Room Temperature', 'Local Temperature']];
         for (var i = 0; i < data.dataset.length; i++) {
             plot_array.push([
-                data.dataset[i][0],
+                new Date(data.dataset[i][0]),
                 parseFloat(data.dataset[i][1]),
                 parseFloat(data.dataset[i][2])
             ]);

@@ -5,13 +5,14 @@ from os import listdir
 from os.path import isfile, join
 import datetime
 import json
-import math
+import time
 
 class PlotDataWindow():
     def __init__(self):
         self.report_dir = get_property('REPORT_DIR', 'CONFIG')
         self.report_suffix = get_property('REPORT_FILE', 'CONFIG')
         self.file_time_format = get_property('FILE_TIME', 'CONFIG')
+        self.timestamp_format = get_property('TIME_FORMAT', 'CONFIG')
         self.latest_report = self.get_latest_report()
         self.full_report = self.read_report(self.latest_report)
         self.poll_interval = int(get_property('POLLING_INTERVAL', 'SENSOR'))
@@ -23,11 +24,17 @@ class PlotDataWindow():
         self.plot_5d = get_property('PLOT_5d', 'PLOTS')
         self.plot_10d = get_property('PLOT_10d', 'PLOTS')
         self.current = get_property('CURRENT', 'PLOTS')
+        self.avgs = get_property('AVGS', 'PLOTS')
 
         self.num_data_points = int(get_property('PLOT_POINTS', 'PLOTS'))
         self.max_hticks = int(get_property('MAX_HTICKS', 'PLOTS'))
         self.max_vticks = 12
         self.day_seconds = 86400
+
+    def convert_utc(self, timestamp):
+        basetime = datetime.datetime.strptime(timestamp, self.timestamp_format)
+        converted = basetime.strftime(self.timestamp_format) + time.strftime("%z")
+        return converted
 
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
@@ -59,43 +66,56 @@ class PlotDataWindow():
         self.generate_10d_dataset()
 
     def generate_12hr_dataset(self):
-        points = self.extract_data_window(self.day_seconds / 2)
-        hticks = self.generate_hticks(points)
+        window = self.day_seconds / 2
+        points = self.extract_data_window(window)
+        hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
         self.write_window_data(self.plot_12 + '.json', points, hticks, vticks)
 
     def generate_24hr_dataset(self):
-        points = self.extract_data_window(self.day_seconds)
-        hticks = self.generate_hticks(points)
+        window = self.day_seconds
+        points = self.extract_data_window(window)
+        hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
         self.write_window_data(self.plot_24 + '.json', points, hticks, vticks)
 
     def generate_2d_dataset(self):
-        points = self.extract_data_window(self.day_seconds * 2)
-        hticks = self.generate_hticks(points)
+        window = self.day_seconds * 2
+        points = self.extract_data_window(window)
+        hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
         self.write_window_data(self.plot_2d + '.json', points, hticks, vticks)
 
     def generate_5d_dataset(self):
-        points = self.extract_data_window(self.day_seconds * 5)
-        hticks = self.generate_hticks(points)
+        window = self.day_seconds * 5
+        points = self.extract_data_window(window)
+        hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
         self.write_window_data(self.plot_5d + '.json', points, hticks, vticks)
 
     def generate_10d_dataset(self):
-        points = self.extract_data_window(self.day_seconds * 10)
-        hticks = self.generate_hticks(points)
+        window = self.day_seconds * 5
+        points = self.extract_data_window(window)
+        hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
         self.write_window_data(self.plot_10d + '.json', points, hticks, vticks)
 
-    def generate_hticks(self, points):
+    def generate_hticks(self, points, window):
         if len(points) < 1:
             return None
 
-        #floor_time = datetime.datetime.strptime(points[0][0], '%H:%M:%S')
-        #ceil_time = datetime.datetime.strptime(points[len(points) - 1][0], '%H:%M:%S')
+        ceil_time = datetime.datetime.strptime(points[len(points) - 1][0], self.timestamp_format)
+        floor_time = ceil_time - datetime.timedelta(seconds=window)
+        hours = datetime.timedelta(seconds=window).total_seconds() / 3600
+        tick_gap = 1
+        while int((hours / tick_gap)) > self.max_hticks:
+            tick_gap += 1
 
+        hticks = [floor_time]
+        for i in range(1, int(hours / tick_gap) - 1):
+            hticks.append(floor_time + datetime.timedelta(seconds=(3600 * tick_gap * i)))
 
+        return hticks
 
     def generate_vticks(self, points):
 
@@ -187,7 +207,7 @@ class PlotDataWindow():
         for tup in sig_points:
             if counter % point_gap is 0:
                 cols = tup.split(',')
-                tm = cols[0]
+                tm = self.convert_utc(cols[0])
                 plot_list.append([tm, cols[1], cols[2]])
 
             counter += 1
@@ -195,7 +215,6 @@ class PlotDataWindow():
         return plot_list
 
     def write_window_data(self, filename, points, hticks, vticks):
-
 
         data = {
             'hticks':hticks,
@@ -211,7 +230,7 @@ class PlotDataWindow():
         w_temp = weather.temp_f
         w_location = weather.city
         data = {
-            'timestamp':timestamp,
+            'timestamp': self.convert_utc(timestamp),
             'sensor': {'temp_f': s_temp},
             'weather': {'temp_f': w_temp, 'location': w_location}
         }
@@ -219,4 +238,34 @@ class PlotDataWindow():
             json.dump(data, json_file, indent=4)
 
     def write_daily_averages(self):
-        pass
+        days = dict()
+        avgs = dict()
+        for tup in self.full_report:
+            cols = tup.split(',')
+            day = cols[0].split('T')[0]
+            s_temp = cols[1]
+            w_temp = cols[2]
+            if days.has_key(day):
+                days[day].append({'timestamp':cols[0], 's_temp':s_temp, 'w_temp':w_temp})
+            else:
+                days[day] = []
+
+        for day in days:
+            times = []
+            s_temps = []
+            w_temps = []
+
+            for point in days[day]:
+                times.append(datetime.datetime.strptime(point['timestamp'], self.timestamp_format))
+                s_temps.append(point['s_temp'])
+                w_temps.append(point['w_temp'])
+
+            avgs[day] = {
+                'time_start': self.convert_utc(min(times).strftime(self.timestamp_format)),
+                'time_end': self.convert_utc(max(times).strftime(self.timestamp_format)),
+                's_avg': sum(s_temps) / len(s_temps),
+                'w_avg': sum(w_temps) / len(w_temps)
+            }
+
+        with open(self.plot_dir + self.avgs + '.json', 'w') as json_file:
+            json.dump(avgs, json_file, indent=4)

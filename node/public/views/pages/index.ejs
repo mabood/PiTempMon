@@ -23,12 +23,28 @@
                 <col width="30%">
                 <tr>
                     <td>
-                        <h1 id="current-time" align="left">
-                            <%= current_time%>
-                        </h1>
-                        <h3 id="current-location-text" align="left" style="color:#bfbfbf;margin-left:10px">
-                            <%= weather_local%>
-                        </h3>
+                        <table align="left" width="350px">
+                            <tr>
+                                <h3 id="current-last-measured" style="color:#bfbfbf;float:left" >
+                                    Last updated: &nbsp;
+                                </h3>
+                                <h3 id="current-time">
+                                    <%= current_time%>
+                                </h3>
+                            </tr>
+                            <tr>
+                                <td width="30px">
+                                    <h3 style="color:#bfbfbf;float:left">
+                                        In&nbsp;
+                                    </h3>
+                                </td>
+                                <td>
+                                    <h3 id="current-location-text">
+                                        <%= weather_local%>
+                                    </h3>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                     <td>
                         <h1 id="current-s-tempf" align="center" style="color:#00ff99">

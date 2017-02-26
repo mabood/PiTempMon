@@ -34,4 +34,5 @@ class StatReporter:
         self.plot.read_latest_report()
         self.plot.write_all_datasets()
         self.plot.write_current_temps(timestamp, sensor_temp_f, self.weather)
+        self.plot.write_daily_averages()
 
