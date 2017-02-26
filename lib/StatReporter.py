@@ -8,6 +8,7 @@ class StatReporter:
         self.report_file = report_file
         self.touch_report_file()
         self.plot = PlotDataWindow()
+        create_datasets_dir()
 
     def touch_report_file(self):
         try:

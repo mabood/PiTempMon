@@ -28,6 +28,9 @@ def report_dir_exists():
 def log_dir_exists():
     return os.path.exists(get_property('LOG_DIR', 'LOGS'))
 
+def datasets_dir_exists():
+    return os.path.exists(get_property('PLOT_DATA_DIR', 'PLOTS'))
+
 def create_log_dir():
     if not log_dir_exists():
         try:
@@ -35,6 +38,14 @@ def create_log_dir():
         except OSError:
             logging.error('Unable to create log directory. Check location of LOG_DIR')
             report_failed_and_exit('Unable to create log directory')
+
+def create_datasets_dir():
+    if not datasets_dir_exists():
+        try:
+            os.makedirs(get_property('PLOT_DATA_DIR', 'PLOTS'))
+        except OSError:
+            logging.error('Unable to create datasets directory. Check location of PLOT_DATA_DIR')
+            report_failed_and_exit('Unable to create datasets directory')
 
 # Sets up logger with the configured log file
 def setup_logger(logfile=None, verbose=None, console=None):
