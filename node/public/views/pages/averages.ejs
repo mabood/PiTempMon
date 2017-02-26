@@ -17,13 +17,41 @@
 
     <main>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-5">
 
-                <div class="well">
-                    <h1>21.24 degrees</h1>
+                <div class="jumbotron" style="height:280px">
+                    <h2 id="avg-point-date"><%= current_date %></h2>
+                    <h2 id="avg-point-timerange" style="color:#bfbfbf">
+                        <%= current_time %> - <%= current_time %>
+                    </h2>
                 </div>
 
             </div>
+            <div class="col-sm-7">
+
+                <div class="jumbotron" style="height:280px">
+                    <table style="margin-left: auto; margin-right: auto">
+                        <col width="40%">
+                        <col width="40%">
+                        <tr>
+                            <td>
+                                <h1 id="avg-point-sensor" align="center" style="color:#00ff99">
+                                    56.5
+                                </h1>
+                                <h3 align="center">Average Room Temperature</h3>
+                            </td>
+                            <td>
+                                <h1 id="avg-point-weather" align="center" style="color:#ff0f0f">
+                                    26.2
+                                </h1>
+                                <h3 align="center">Average Outside Temperature</h3>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
         </div>
     </main>
 
