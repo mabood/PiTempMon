@@ -243,14 +243,14 @@ class PlotDataWindow():
             if days.has_key(day):
                 days[day].append({'timestamp':cols[0], 's_temp':s_temp, 'w_temp':w_temp})
             else:
-                days[day] = []
+                days[day] = [{'timestamp':cols[0], 's_temp':s_temp, 'w_temp':w_temp}]
 
         for day in days:
             times = []
             s_temps = []
             w_temps = []
 
-            for point in day:
+            for point in days[day]:
                 times.append(datetime.datetime.strptime(point['timestamp'], self.timestamp_format))
                 s_temps.append(point['s_temp'])
                 w_temps.append(point['w_temp'])
