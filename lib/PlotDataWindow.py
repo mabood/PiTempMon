@@ -219,7 +219,7 @@ class PlotDataWindow():
         utc_points = []
         for point in points:
             point[0] = self.convert_utc(point[0])
-            utc_points.append=(point)
+            utc_points.append(point)
 
         data = {
             'hticks':hticks,
