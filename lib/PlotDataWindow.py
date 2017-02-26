@@ -31,11 +31,6 @@ class PlotDataWindow():
         self.max_vticks = 12
         self.day_seconds = 86400
 
-    def convert_utc(self, timestamp):
-        basetime = datetime.datetime.strptime(timestamp, self.timestamp_format)
-        converted = basetime.strftime(self.timestamp_format) + time.strftime("%z")
-        return converted
-
     def get_latest_report(self):
         reports = [f for f in listdir(self.report_dir) if isfile(join(self.report_dir, f))]
         tail = '-' + self.report_suffix
@@ -215,17 +210,10 @@ class PlotDataWindow():
         return plot_list
 
     def write_window_data(self, filename, points, hticks, vticks):
-        # first convert times to UTC
-        utc_points = list()
-        for point in points:
-            print point
-            utc_points.append([str(self.convert_utc(point[0])), point[1], point[2]])
-            print utc_points
-
         data = {
             'hticks':hticks,
             'vticks':vticks,
-            'dataset':utc_points
+            'dataset':points
         }
 
         with open(self.plot_dir + filename, 'w') as json_file:
@@ -236,7 +224,7 @@ class PlotDataWindow():
         w_temp = weather.temp_f
         w_location = weather.city
         data = {
-            'timestamp': self.convert_utc(timestamp),
+            'timestamp': timestamp,
             'sensor': {'temp_f': s_temp},
             'weather': {'temp_f': w_temp, 'location': w_location}
         }
@@ -267,8 +255,8 @@ class PlotDataWindow():
                 w_temps.append(point['w_temp'])
 
             avgs[day] = {
-                'time_start': self.convert_utc(min(times).strftime(self.timestamp_format)),
-                'time_end': self.convert_utc(max(times).strftime(self.timestamp_format)),
+                'time_start': min(times).strftime(self.timestamp_format),
+                'time_end': max(times).strftime(self.timestamp_format),
                 's_avg': sum(s_temps) / len(s_temps),
                 'w_avg': sum(w_temps) / len(w_temps)
             }
