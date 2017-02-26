@@ -89,6 +89,12 @@ app.get('/plot-data', function(req, res){
     res.send(plot_data);
 });
 
+app.get('/avgs', function(req, res) {
+    console.log('request: ' + req.originalUrl);
+
+    res.send(plot.averages());
+});
+
 
 
 app.listen(8080);

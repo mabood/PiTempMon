@@ -2,7 +2,6 @@
  * Created by MikeGA on 2/13/17.
  */
 var fs = require('fs');
-var moment = require('moment-timezone');
 
 
 function readJSON(filename){
@@ -13,7 +12,6 @@ function readJSON(filename){
 
 function readCurrentTimestamp(){
     var text_date = readJSON(__dirname + '/public/datasets/current.json')['timestamp'];
-    var tz_formatted = moment.tz(text_date, "America/Los_Angeles").format();
     return new Date(tz_formatted);
 }
 
@@ -27,6 +25,10 @@ function readCurrentWeatherTemp(){
 
 function readWeatherLocation(){
     return readJSON(__dirname + '/public/datasets/current.json')['weather']['location'];
+}
+
+function readAverages(){
+    return readJSON(__dirname + '/public/datasets/avgs.json');
 }
 
 function read12hrPlot () {
@@ -58,4 +60,4 @@ module.exports.currentSensorTemp = readCurrentSensorTemp;
 module.exports.currentWeatherTemp = readCurrentWeatherTemp;
 module.exports.currentDate = readCurrentTimestamp;
 module.exports.weatherLocation = readWeatherLocation;
-
+module.exports.averages = readAverages;
