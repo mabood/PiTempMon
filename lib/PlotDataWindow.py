@@ -218,6 +218,7 @@ class PlotDataWindow():
         # first convert times to UTC
         utc_points = list()
         for point in points:
+            print point
             utc_points.append([self.convert_utc(point[0]), point[1], point[2]])
 
         data = {
