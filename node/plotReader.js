@@ -33,7 +33,7 @@ function readWeatherLocation(){
 }
 
 function convert_time_points_utc(json_data) {
-    data = json_data['dataset'];
+    var data = json_data['dataset'];
     var converted_data = [];
     for (var i = 0; i < data.length; i++) {
         var utc_time = convert_time_utc(data[i][0]);
