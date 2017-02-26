@@ -38,6 +38,14 @@ app.get('/lineplot', function(req, res) {
     });
 });
 
+app.get('/averages', function(req, res) {
+    var current_date = plot.currentDate();
+    res.render('pages/averages', {
+        current_date: dateFormat(current_date, "dddd, mmmm dS, yyyy"),
+        current_time: dateFormat(current_date, "h:MM TT")
+    });
+});
+
 app.get('/current-data', function(req, res){
    var id = req.query.id;
    var data = "";
