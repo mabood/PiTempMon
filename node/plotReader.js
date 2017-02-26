@@ -2,6 +2,7 @@
  * Created by MikeGA on 2/13/17.
  */
 var fs = require('fs');
+var moment = require('moment-timezone');
 
 
 function readJSON(filename){
@@ -10,9 +11,13 @@ function readJSON(filename){
     return JSON.parse(contents);
 }
 
+function convert_time_utc(timestamp) {
+    return moment.tz(timestamp, moment.tz.guess()).format();
+}
+
 function readCurrentTimestamp(){
     var text_date = readJSON(__dirname + '/public/datasets/current.json')['timestamp'];
-    return new Date(tz_formatted);
+    return new Date(convert_time_utc(text_date));
 }
 
 function readCurrentSensorTemp(){
@@ -27,28 +32,42 @@ function readWeatherLocation(){
     return readJSON(__dirname + '/public/datasets/current.json')['weather']['location'];
 }
 
+function convert_time_points_utc(data) {
+    var converted_data = [];
+    for (var i = 0; i < data.length; i++) {
+        var utc_time = convert_time_utc(data[i][0]);
+        converted_data[i] = [utc_time, data[i][1], data[i][2]];
+    }
+    return converted_data;
+}
+
 function readAverages(){
     return readJSON(__dirname + '/public/datasets/avgs.json');
 }
 
 function read12hrPlot () {
-    return readJSON(__dirname + '/public/datasets/12hr.json');
+    var data = readJSON(__dirname + '/public/datasets/12hr.json');
+    return convert_time_points_utc(data);
 }
 
 function read24hrPlot () {
-    return readJSON(__dirname + '/public/datasets/24hr.json');
+    var data = readJSON(__dirname + '/public/datasets/24hr.json');
+    return convert_time_points_utc(data);
 }
 
 function read2dPlot () {
-    return readJSON(__dirname + '/public/datasets/2d.json');
+    var data = readJSON(__dirname + '/public/datasets/2d.json');
+    return convert_time_points_utc(data);
 }
 
 function read5dPlot () {
-    return readJSON(__dirname + '/public/datasets/5d.json');
+    var data = readJSON(__dirname + '/public/datasets/5d.json');
+    return convert_time_points_utc(data);
 }
 
 function read10dPlot () {
-    return readJSON(__dirname + '/public/datasets/10d.json');
+    var data = readJSON(__dirname + '/public/datasets/10d.json');
+    return convert_time_points_utc(data);
 }
 
 module.exports.current12hrPlot = read12hrPlot;
@@ -61,3 +80,4 @@ module.exports.currentWeatherTemp = readCurrentWeatherTemp;
 module.exports.currentDate = readCurrentTimestamp;
 module.exports.weatherLocation = readWeatherLocation;
 module.exports.averages = readAverages;
+
