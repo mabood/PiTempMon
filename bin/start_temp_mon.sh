@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/pi/dev/PiTempMon/bin
+cd /home/pi/dev/PiThermoStats/bin
 
 if [ ! -f TMON_PID ]; then
     echo "INVALIDPID" > TMON_PID
