@@ -16,47 +16,50 @@
     </script>
 
     <main>
-        <div class="row">
-            <div class="col-sm-5">
 
-                <div class="jumbotron" style="height:280px">
-                    <h2 id="avg-point-date"><%= current_date %></h2>
-                    <h2 id="avg-point-timerange" style="color:#bfbfbf">
-                        <%= current_time %> - <%= current_time %>
-                    </h2>
-                </div>
+        <% include ../partials/avg-rows.ejs %>
 
-            </div>
-            <div class="col-sm-7">
-
-                <div class="jumbotron" style="height:280px">
-                    <table style="margin-left: auto; margin-right: auto">
-                        <col width="40%">
-                        <col width="40%">
-                        <tr>
-                            <td>
-                                <h1 id="avg-point-sensor" align="center" style="color:#00ff99">
-                                    56.5
-                                </h1>
-                                <h3 align="center">Average Room Temperature</h3>
-                            </td>
-                            <td>
-                                <h1 id="avg-point-weather" align="center" style="color:#ff0f0f">
-                                    26.2
-                                </h1>
-                                <h3 align="center">Average Outside Temperature</h3>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-            </div>
-
-        </div>
     </main>
 
     <footer>
         <% include ../partials/footer.ejs %>
+
+        <script type="text/javascript">
+
+            function generate_containers() {
+                var count = 0
+                var json_data = $.ajax({
+                    type: "GET",
+                    url: "/avgs",
+                    async: false
+                }).responseText;
+
+                var daily_avgs = JSON.parse(json_data);
+
+                for (var day in daily_avgs) {
+                    if (daily_avgs.hasOwnProperty(day)) {
+                        var date = dateFormat(new Date(day), 'dddd, mmmm dS');
+                        var props = daily_avgs[day];
+                        var time_start = dateFormat(new Date(props['time_start']), 'h:MM TT');
+                        var time_end = dateFormat(new Date(props['time_end']), 'h:MM TT');
+                        var s_avg = props['s_avg'].toFixed(2) + '°';
+                        var w_avg = props['w_avg'].toFixed(2) + '°';
+
+
+                        $("#avg-point-date-"+count).text(date);
+                        $("#avg-point-timerange-"+count).text(time_start + " - " + time_end);
+
+                        $("#avg-point-sensor-"+count).text(s_avg);
+                        $("#avg-point-weather-"+count).text(w_avg);
+
+                        $("#avg-row-"+count).css("visibility", "visible");
+                        count++;
+                    }
+                }
+            }
+
+            generate_containers();
+        </script>
     </footer>
 
 </body>
