@@ -106,9 +106,10 @@ class PlotDataWindow():
         while int((hours / tick_gap)) > self.max_hticks:
             tick_gap += 1
 
-        hticks = [floor_time]
+        hticks = [floor_time.strftime(self.timestamp_format)]
         for i in range(1, int(hours / tick_gap) - 1):
-            hticks.append(floor_time + datetime.timedelta(seconds=(3600 * tick_gap * i)))
+            tick = floor_time + datetime.timedelta(seconds=(3600 * tick_gap * i))
+            hticks.append(tick.strftime(self.timestamp_format))
 
         return hticks
 
