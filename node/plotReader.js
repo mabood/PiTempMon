@@ -2,7 +2,6 @@
  * Created by MikeGA on 2/13/17.
  */
 var fs = require('fs');
-var moment = require('moment-timezone');
 
 
 function readJSON(filename){
