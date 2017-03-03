@@ -94,7 +94,7 @@ class PlotDataWindow():
         self.write_window_data(self.plot_5d + '.json', points, hticks, vticks)
 
     def generate_10d_dataset(self):
-        window = self.day_seconds * 5
+        window = self.day_seconds * 10
         points = self.extract_data_window(window)
         hticks = self.generate_hticks(points, window)
         vticks = self.generate_vticks(points)
