@@ -6,6 +6,7 @@ from os.path import isfile, join
 import datetime
 import json
 import time
+from collections import OrderedDict
 
 class PlotDataWindow():
     def __init__(self):
@@ -238,8 +239,8 @@ class PlotDataWindow():
             json.dump(data, json_file, indent=4)
 
     def write_daily_averages(self):
-        days = dict()
-        avgs = dict()
+        days = OrderedDict()
+        avgs = OrderedDict()
         for tup in self.full_report:
             cols = tup.split(',')
             day = cols[0].split('T')[0]
