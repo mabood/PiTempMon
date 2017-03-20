@@ -76,5 +76,5 @@ class WeatherStats():
             self.temp_c = float(stats['temp_c'])
             self.temp_f = float(stats['temp_f'])
 
-        except KeyError as e:
+        except Exception as e:
             logging.error('Error updating weather stats: %s' % e.message)
