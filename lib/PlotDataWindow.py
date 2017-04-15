@@ -34,7 +34,7 @@ class PlotDataWindow():
 
     def convert_utc(self, timestamp):
         localtime = datetime.datetime.strptime(timestamp, self.timestamp_format)
-        utc_time = localtime + datetime.timedelta(seconds=time.timezone)
+        utc_time = localtime + datetime.timedelta(seconds=time.altzone)
         return utc_time.strftime(self.timestamp_format)
 
     def get_latest_report(self):
