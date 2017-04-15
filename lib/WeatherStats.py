@@ -52,6 +52,9 @@ class WeatherStats():
             self.longitude = float(stats['display_location']['longitude'])
             self.zip = stats['display_location']['zip']
 
+            self.temp_c = float(stats['temp_c'])
+            self.temp_f = float(stats['temp_f'])
+
             self.local_epoch = stats['local_epoch']
             self.local_time = stats['local_time_rfc822']
             self.local_timezone = stats['local_tz_short']
@@ -72,9 +75,6 @@ class WeatherStats():
             self.wind_dir = stats['wind_dir']
             self.wind_gust_mph = float(stats['wind_gust_mph'])
             self.station_id = stats['station_id']
-
-            self.temp_c = float(stats['temp_c'])
-            self.temp_f = float(stats['temp_f'])
 
         except Exception as e:
             logging.error('Error updating weather stats: %s' % e.message)
