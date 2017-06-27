@@ -36,7 +36,7 @@
 
                 var daily_avgs = JSON.parse(json_data);
 
-                for (var day in daily_avgs) {
+                for (var day in daily_avgs.reverse()) {
                     if (daily_avgs.hasOwnProperty(day)) {
                         var date = dateFormat(new Date(day), 'dddd, mmmm dS');
                         var props = daily_avgs[day];
