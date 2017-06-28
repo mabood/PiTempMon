@@ -34,7 +34,7 @@
                     async: false
                 }).responseText;
 
-                var daily_avgs = JSON.parse(json_data).reverse();
+                var daily_avgs = JSON.parse(json_data);
 
                 for (var day in daily_avgs) {
                     if (daily_avgs.hasOwnProperty(day)) {
