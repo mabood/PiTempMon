@@ -35,9 +35,16 @@
                 }).responseText;
 
                 var daily_avgs = JSON.parse(json_data);
+                var reverse_avgs = []
 
-                for (var day in daily_avgs) {
-                    if (daily_avgs.hasOwnProperty(day)) {
+                for (var data_point in daily_avgs) {
+                    if (daily_avgs.hasOwnProperty(data_point)) {
+                        reverse_avgs.push(data_point);
+                    }
+                }
+
+                for (var day in reverse_avgs) {
+                    if (reverse_avgs.hasOwnProperty(day)) {
                         var date = dateFormat(new Date(day), 'dddd, mmmm dS');
                         var props = daily_avgs[day];
                         var time_start = dateFormat(new Date(props['time_start']), 'h:MM TT');
