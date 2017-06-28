@@ -43,7 +43,8 @@
                     }
                 }
 
-                for (var day in reverse_avgs) {
+                while (reverse_avgs.length > 0) {
+                    var day = reverse_avgs.pop()
                     if (reverse_avgs.hasOwnProperty(day)) {
                         var date = dateFormat(new Date(day), 'dddd, mmmm dS');
                         var props = daily_avgs[day];
