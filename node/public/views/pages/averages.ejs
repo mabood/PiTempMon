@@ -42,7 +42,6 @@
                 }).responseText;
 
                 var daily_avgs = JSON.parse(json_data);
-                console.log(daily_avgs);
                 var reverse_avgs = [];
 
                 for (var data_point in daily_avgs) {
@@ -50,13 +49,12 @@
                         reverse_avgs.push(data_point);
                     }
                 }
-                console.log(reverse_avgs);
 
                 while (reverse_avgs.length > 0) {
                     var day = reverse_avgs.pop();
-                    if (reverse_avgs.hasOwnProperty(day)) {
+                    if (daily_avgs.hasOwnProperty(day)) {
                         var date = dateFormat(new Date(day), 'dddd, mmmm dS');
-                        var props = reverse_avgs[day];
+                        var props = daily_avgs[day];
                         var time_start = dateFormat(new Date(props['time_start']), 'h:MM TT');
                         var time_end = dateFormat(new Date(props['time_end']), 'h:MM TT');
                         var s_avg = props['s_avg'].toFixed(2) + '°';
