@@ -42,6 +42,7 @@
                 }).responseText;
 
                 var daily_avgs = JSON.parse(json_data);
+                console.log(daily_avgs);
                 var reverse_avgs = [];
 
                 for (var data_point in daily_avgs) {
@@ -49,6 +50,7 @@
                         reverse_avgs.push(data_point);
                     }
                 }
+                console.log(reverse_avgs);
 
                 while (reverse_avgs.length > 0) {
                     var day = reverse_avgs.pop();
