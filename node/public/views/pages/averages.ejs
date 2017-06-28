@@ -22,7 +22,14 @@
     </main>
 
     <footer>
-        <% include ../partials/footer.ejs %>
+        <div>
+            <br>
+            <br>
+            <br>
+
+            <p class="text-center text-muted" style="bottom: 0;">© Copyright 2017 Mike Abood</p>
+
+        </div>
 
         <script type="text/javascript">
 
@@ -47,7 +54,7 @@
                     var day = reverse_avgs.pop();
                     if (reverse_avgs.hasOwnProperty(day)) {
                         var date = dateFormat(new Date(day), 'dddd, mmmm dS');
-                        var props = daily_avgs[day];
+                        var props = reverse_avgs[day];
                         var time_start = dateFormat(new Date(props['time_start']), 'h:MM TT');
                         var time_end = dateFormat(new Date(props['time_end']), 'h:MM TT');
                         var s_avg = props['s_avg'].toFixed(2) + '°';
