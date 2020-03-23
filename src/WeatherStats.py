@@ -33,7 +33,7 @@ class WeatherStats():
         # self.update_weather_stats()
         # self.call_timer = IntervalTimer(self.interval, self.update_weather_stats)
 
-        self.city = get_property('WEATHER', 'US_CITY')
+        self.city = get_property('US_CITY', 'WEATHER')
         self.temp_f = 0.0
 
     def build_request(self):
