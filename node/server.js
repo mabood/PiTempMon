@@ -103,7 +103,4 @@ app.get('/avgs', function(req, res) {
     res.send(plot.averages());
 });
 
-
-
 app.listen(8080);
-console.log('8080 is the magic port');
