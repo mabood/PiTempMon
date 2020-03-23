@@ -42,39 +42,43 @@ class WeatherStats():
         return http_request
 
     def update_weather_stats(self):
-        req = requests.get(self.http_request)
+        #req = requests.get(self.http_request)
         try:
-            stats = req.json()['current_observation']
-
-            self.city = stats['display_location']['full']
-            self.elevation = float(stats['display_location']['elevation'])
-            self.latitude = float(stats['display_location']['latitude'])
-            self.longitude = float(stats['display_location']['longitude'])
-            self.zip = stats['display_location']['zip']
-
-            self.temp_c = float(stats['temp_c'])
-            self.temp_f = float(stats['temp_f'])
-
-            self.local_epoch = stats['local_epoch']
-            self.local_time = stats['local_time_rfc822']
-            self.local_timezone = stats['local_tz_short']
-
-            self.obs_location = stats['observation_location']['city']
-
-            self.precip_1hr_in = float(stats['precip_1hr_in'])
-            self.precip_1hr_metric = float(stats['precip_1hr_metric'])
-            self.precip_today_in = float(stats['precip_today_in'])
-            self.precip_today_metric = float(stats['precip_today_metric'])
-
-            self.pressure_in = float(stats['pressure_in'])
-            self.pressure_mb = float(stats['pressure_mb'])
-
-            self.humidity = stats['relative_humidity']
-            self.weather = stats['weather']
-            self.wind_degrees = float(stats['wind_degrees'])
-            self.wind_dir = stats['wind_dir']
-            self.wind_gust_mph = float(stats['wind_gust_mph'])
-            self.station_id = stats['station_id']
-
+            # stats = req.json()['current_observation']
+            # Until we can figure out how to hook up a real weather API
+            #
+            # self.city = stats['display_location']['full']
+            # self.elevation = float(stats['display_location']['elevation'])
+            # self.latitude = float(stats['display_location']['latitude'])
+            # self.longitude = float(stats['display_location']['longitude'])
+            # self.zip = stats['display_location']['zip']
+            #
+            # self.temp_c = float(stats['temp_c'])
+            # self.temp_f = float(stats['temp_f'])
+            #
+            # self.local_epoch = stats['local_epoch']
+            # self.local_time = stats['local_time_rfc822']
+            # self.local_timezone = stats['local_tz_short']
+            #
+            # self.obs_location = stats['observation_location']['city']
+            #
+            # self.precip_1hr_in = float(stats['precip_1hr_in'])
+            # self.precip_1hr_metric = float(stats['precip_1hr_metric'])
+            # self.precip_today_in = float(stats['precip_today_in'])
+            # self.precip_today_metric = float(stats['precip_today_metric'])
+            #
+            # self.pressure_in = float(stats['pressure_in'])
+            # self.pressure_mb = float(stats['pressure_mb'])
+            #
+            # self.humidity = stats['relative_humidity']
+            # self.weather = stats['weather']
+            # self.wind_degrees = float(stats['wind_degrees'])
+            # self.wind_dir = stats['wind_dir']
+            # self.wind_gust_mph = float(stats['wind_gust_mph'])
+            # self.station_id = stats['station_id']
+            self.weather = {
+                'city': get_property('WEATHER', 'US_CITY'),
+                'temp_f': 0.0
+            }
         except Exception as e:
             logging.error('Error updating weather stats: %s' % e.message)
