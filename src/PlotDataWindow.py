@@ -227,12 +227,12 @@ class PlotDataWindow():
             json.dump(data, json_file, indent=4)
         logging.info('Wrote %d points to file: %s' % (len(points), filename))
 
-    def write_current_temps(self, timestamp, s_temp, weather):
+    def write_current_temps(self, timestamp, s_temp_f, s_temp_c, weather):
         w_temp = weather.temp_f
         w_location = weather.city
         data = {
             'timestamp': self.convert_utc(timestamp),
-            'sensor': {'temp_f': s_temp},
+            'sensor': {'temp_f': s_temp_f, 'temp_c': s_temp_c},
             'weather': {'temp_f': w_temp, 'location': w_location}
         }
         with open(self.plot_dir + self.current + '.json', 'w') as json_file:

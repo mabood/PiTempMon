@@ -30,10 +30,9 @@ class StatReporter:
 
     def update_plot_data(self):
         timestamp = self.sensor.latest_measurement_time
-        sensor_temp_f = self.sensor.latest_temp_f
 
         self.plot.read_latest_report()
         self.plot.write_all_datasets()
-        self.plot.write_current_temps(timestamp, sensor_temp_f, self.weather)
+        self.plot.write_current_temps(timestamp, self.sensor.latest_temp_f, self.sensor.latest_temp_c, self.weather)
         self.plot.write_daily_averages()
 

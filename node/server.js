@@ -103,4 +103,10 @@ app.get('/avgs', function(req, res) {
     res.send(plot.averages());
 });
 
+app.get('/api/sensor_temp_c', function(req, res) {
+    console.log('request: ' + req.originalUrl);
+
+    res.send(plot.averages());
+});
+
 app.listen(8080);
