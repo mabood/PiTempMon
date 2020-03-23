@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /home/pi/dev/PiThermoStats/bin
-
 ps aux | grep -f TMON_PID
 RUNNING=$?
 read -r PID <TMON_PID

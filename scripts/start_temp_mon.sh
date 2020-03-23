@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /home/pi/dev/PiThermoStats/bin
-
 if [ ! -f TMON_PID ]; then
     echo "INVALIDPID" > TMON_PID
 fi
@@ -20,6 +18,6 @@ else
     python lib/TempMon.py &
     PID=$!
     echo $PID
-    echo $PID > bin/TMON_PID
+    echo $PID > scripts/TMON_PID
     exit 0
 fi
