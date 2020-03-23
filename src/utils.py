@@ -5,7 +5,7 @@ import sys
 import datetime
 
 
-CONFIG_FILENAME = 'conf/PiThermoStats.conf'
+CONFIG_FILENAME = 'config/PiThermoStats.config'
 EXIT_SUCCESS = 0
 
 # Gets the value for a given key 'keyname' from the properties file 'filepath'

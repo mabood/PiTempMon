@@ -15,7 +15,7 @@ else
     rm -rf TMON_PID
     echo "Starting TempMon..."
     cd ../
-    python lib/TempMon.py &
+    python src/TempMon.py &
     PID=$!
     echo $PID
     echo $PID > scripts/TMON_PID
