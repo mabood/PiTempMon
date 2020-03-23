@@ -16,8 +16,8 @@ app.set('view engine', 'ejs');
 
 // index page
 app.get('/', function(req, res) {
-    var current_sensor = plot.currentSensorTemp() + '°';
-    var current_weather = plot.currentWeatherTemp() + '°';
+    var current_sensor = plot.currentSensorTempF() + '°';
+    var current_weather = plot.currentWeatherTempF() + '°';
     var current_date = plot.currentDate();
     var weather_location = plot.weatherLocation();
     res.render('pages/index', {
@@ -60,10 +60,10 @@ app.get('/current-data', function(req, res){
            data = dateFormat(plot.currentDate(), "dddd, mmmm dS, yyyy");
            break;
        case 'w_tempf':
-           data = plot.currentWeatherTemp() + '°';
+           data = plot.currentWeatherTempF() + '°';
            break;
        case 's_tempf':
-           data = plot.currentSensorTemp() + '°';
+           data = plot.currentSensorTempF() + '°';
            break;
        case 'w_location':
            data = plot.weatherLocation();
@@ -106,7 +106,7 @@ app.get('/avgs', function(req, res) {
 app.get('/api/sensor_temp_c', function(req, res) {
     console.log('request: ' + req.originalUrl);
 
-    res.send(plot.averages());
+    res.send(plot.currentSensorTempC());
 });
 
 app.listen(8080);

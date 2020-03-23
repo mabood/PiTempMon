@@ -15,8 +15,12 @@ function readCurrentTimestamp(){
     return new Date(text_date);
 }
 
-function readCurrentSensorTemp(){
+function readCurrentSensorTempF(){
     return readJSON(__dirname + '/public/datasets/current.json')['sensor']['temp_f'].toFixed(1);
+}
+
+function readCurrentSensorTempC(){
+    return readJSON(__dirname + '/public/datasets/current.json')['sensor']['temp_c'].toFixed(1);
 }
 
 function readCurrentWeatherTemp(){
@@ -56,8 +60,9 @@ module.exports.current24hrPlot = read24hrPlot;
 module.exports.current2dPlot = read2dPlot;
 module.exports.current5dPlot = read5dPlot;
 module.exports.current10dPlot = read10dPlot;
-module.exports.currentSensorTemp = readCurrentSensorTemp;
-module.exports.currentWeatherTemp = readCurrentWeatherTemp;
+module.exports.currentSensorTempF = readCurrentSensorTempF;
+module.exports.currentSensorTempC = readCurrentSensorTempC;
+module.exports.currentWeatherTempF = readCurrentWeatherTemp;
 module.exports.currentDate = readCurrentTimestamp;
 module.exports.weatherLocation = readWeatherLocation;
 module.exports.averages = readAverages;
